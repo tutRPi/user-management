@@ -24,7 +24,7 @@ public class JWTController {
     @PostMapping(path = PATH)
     public ResponseEntity<JWTVerificationResponse> doVerification(@RequestBody @Valid JWTVerificationRequest jwtVerificationRequest) {
         JWTVerificationResponse response = new JWTVerificationResponse();
-        this.jwtProcessorDelegate.buildAuthenticationFromJWT(jwtVerificationRequest.getJwt(), false);
+        jwtProcessorDelegate.buildAuthenticationFromJWT(jwtVerificationRequest.getJwt(), false);
         response.setJwtValid(true);
         return ResponseEntity.ok().body(response);
     }

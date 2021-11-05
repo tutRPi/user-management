@@ -26,13 +26,13 @@ public class UserUpdateController implements SecuredRestController {
     public static final String PATH = "/user";
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @PutMapping(path = PATH)
     public ResponseEntity<UserAccountDataResponse> doUpdate(@RequestBody @Valid UserDataRequest userDataRequest) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //The only data that can be updated is the data related to the logged user
-        User toUpdate = this.userService.findById(customUserDetails.getUser().getNmId()).get();
+        User toUpdate = userService.findById(customUserDetails.getUser().getNmId()).get();
         toUpdate.setDsFirstName(userDataRequest.getFirstName());
         toUpdate.setDsLastName(userDataRequest.getLastName());
 

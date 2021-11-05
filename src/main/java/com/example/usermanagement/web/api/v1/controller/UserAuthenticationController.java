@@ -27,18 +27,18 @@ public class UserAuthenticationController {
     public static final String PATH = "/user/auth";
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    private AuthenticationDelegate authenticationDelegate;
+    AuthenticationDelegate authenticationDelegate;
 
     @PostMapping(path = PATH)
     public ResponseEntity<AuthenticationResponse> doAuthentication(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
         final Authentication authentication =
-                this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         log.debug("After authentication: " + authentication + ", name: " + authentication.getName() + ", principal: " + authentication.getPrincipal() + ", credentials: " + authentication.getCredentials());
         final CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        final AuthenticationResponse authenticationResponse = this.authenticationDelegate.doAuthentication(customUserDetails.getUser(), !customUserDetails.getUser().isYn2faEnabled());
+        final AuthenticationResponse authenticationResponse = authenticationDelegate.doAuthentication(customUserDetails.getUser(), !customUserDetails.getUser().isYn2faEnabled());
         return ResponseEntity.ok().body(authenticationResponse);
     }
 }

@@ -39,14 +39,14 @@ public class UserChangePasswordController implements SecuredRestController {
         User toUpdate = userService.findById(customUserDetails.getUser().getNmId()).get();
 
         ResponseEntity<BaseResponse> toRet;
-        if (this.passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getDsPassword())) {
+        if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getDsPassword())) {
             toUpdate.setDsPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
-            this.userService.save(toUpdate);
+            userService.save(toUpdate);
             customUserDetails.getUser().setDsPassword(toUpdate.getDsPassword());
             toRet = ResponseEntity.ok().build();
         } else {
             BaseResponse baseResponse = new BaseResponse();
-            //TODO: Error Codes and rules for changing passwords (not equal or whatever)
+            // TODO: Error Codes and rules for changing passwords (not equal or whatever)
             baseResponse.addResponseError(99, "The current password does not match.");
             toRet = ResponseEntity.status(HttpStatus.NOT_FOUND).body(baseResponse);
         }
