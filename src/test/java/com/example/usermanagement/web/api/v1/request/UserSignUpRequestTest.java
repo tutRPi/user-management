@@ -10,16 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.validation.*;
-import java.util.ArrayList;
 import java.util.Set;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest
 class UserSignUpRequestTest extends ValidatorTestHelper {
 
     @MockBean
@@ -27,7 +24,7 @@ class UserSignUpRequestTest extends ValidatorTestHelper {
 
     @BeforeEach
     public void setUp() {
-        when(userService.findByEmail(notNull())).thenReturn(java.util.Optional.ofNullable(null));
+        when(userService.findByEmail(notNull())).thenReturn(java.util.Optional.empty());
     }
 
     @Test

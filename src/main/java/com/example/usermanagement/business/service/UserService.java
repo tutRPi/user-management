@@ -17,35 +17,36 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @Transactional
     public User signUp(User user) {
-        //Logic to assign the user role
+        // Logic to assign the user role
         RoleByUser roleByUser = new RoleByUser();
         Role role = new Role();
         role.setNmId(SecurityRole.ROLE_USER.getId());
         roleByUser.setNmRoleId(role);
         roleByUser.setNmUserId(user);
+        // TODO also add ROLE_2FA_CODE_VERIFICATION?
         List<RoleByUser> rolesByUser = new ArrayList<>();
         rolesByUser.add(roleByUser);
         user.setRolesByUserCollection(rolesByUser);
-        return this.userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User save(User user) {
-        return this.userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public Optional<User> findById(Integer userId) {
-        return this.userRepository.findByNmId(userId);
+        return userRepository.findByNmId(userId);
     }
 
     public Optional<User> findByEmail(String email) {
-        return this.userRepository.findByDsEmail(email);
+        return userRepository.findByDsEmail(email);
     }
 
     public boolean existsByEmail(String email, Integer userId) {
-        return this.userRepository.existsByEmail(email, userId);
+        return userRepository.existsByEmail(email, userId);
     }
 }
