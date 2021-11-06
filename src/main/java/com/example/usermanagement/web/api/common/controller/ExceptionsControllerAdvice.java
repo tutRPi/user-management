@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionsControllerAdvice {
     @Autowired
-    private ExceptionResponseComposerManager exceptionResponseComposerManager;
+    ExceptionResponseComposerManager exceptionResponseComposerManager;
 
     @RequestMapping(produces = "application/json")
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseResponse> handleException(Exception ex) throws Exception {
-        return this.exceptionResponseComposerManager.delegateResponseComposition(ex).orElseThrow(() -> ex);
+        // TODO better handling,
+        return exceptionResponseComposerManager.delegateResponseComposition(ex).orElseThrow(() -> ex);
     }
 }

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
 
@@ -52,7 +52,7 @@ public class UserSignUpController {
         token.setDsToken(UUID.randomUUID().toString().replace("-", ""));
         token.setNmUserId(toSignUp);
         token.setDtCreatedOn(new Date());
-        token.setDtExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusHours(24)));
+        token.setDtExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
 
         if (userSignUpRequest.isT2FAEnabled()) {
             //Generate 2FA random secret

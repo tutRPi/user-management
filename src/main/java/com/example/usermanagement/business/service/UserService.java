@@ -23,8 +23,8 @@ public class UserService {
         // Logic to assign the user role
         RoleByUser roleByUser = new RoleByUser();
         Role role = new Role();
-        role.setNmId(SecurityRole.ROLE_USER.getId());
-        roleByUser.setNmRoleId(role);
+        role.setDsName(SecurityRole.ROLE_USER.getName());
+        roleByUser.setRole(role);
         roleByUser.setNmUserId(user);
         // TODO also add ROLE_2FA_CODE_VERIFICATION?
         List<RoleByUser> rolesByUser = new ArrayList<>();

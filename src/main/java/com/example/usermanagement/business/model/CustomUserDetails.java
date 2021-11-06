@@ -53,6 +53,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.getDtDisabledOn() == null;
+        return this.user.getDtDisabledOn() == null && this.user.getDtEmailVerifiedOn() != null;
     }
 }

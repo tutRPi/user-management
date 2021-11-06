@@ -29,7 +29,7 @@ public class JWTUtils {
         } else {
             //Set all real user security roles from db
             rolesByUser.stream().forEach(roleByUser -> {
-                securityRolesList.add(roleByUser.getNmRoleId().getDsName());
+                securityRolesList.add(roleByUser.getRole().getDsName());
             });
         }
         claims.put(WebSecurityConstants.JWT_ROLES_CLAIM_KEY, securityRolesList);

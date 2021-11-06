@@ -20,7 +20,7 @@ public class UserEnabledValidator implements ConstraintValidator<UserEnabled, Au
 
         try {
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-            if (userDetails.isAccountNonLocked() && userDetails.isAccountNonExpired()) {
+            if (userDetails.isEnabled() && userDetails.isAccountNonLocked() && userDetails.isAccountNonExpired()) {
                 return true;
             }
             constraintValidatorContext.buildConstraintViolationWithTemplate(constraintValidatorContext.getDefaultConstraintMessageTemplate()).addPropertyNode("username").addConstraintViolation();

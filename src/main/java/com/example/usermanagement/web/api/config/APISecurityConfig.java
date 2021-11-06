@@ -44,7 +44,7 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.customUserDetailsService);
+        auth.userDetailsService(customUserDetailsService);
     }
 
     @Bean
@@ -95,6 +95,6 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(this.jwtProcessorFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtProcessorFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

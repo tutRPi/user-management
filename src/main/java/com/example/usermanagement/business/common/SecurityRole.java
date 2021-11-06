@@ -1,14 +1,13 @@
 package com.example.usermanagement.business.common;
 
 public enum SecurityRole {
-    ROLE_2FA_CODE_VERIFICATION(-1, Names.ROLE_2FA_CODE_VERIFICATION),
+    ROLE_2FA_CODE_VERIFICATION(Names.ROLE_2FA_CODE_VERIFICATION),
 
     // Adjust roles as needed !
-    ROLE_ADMIN(1, Names.ROLE_ADMIN),
-    ROLE_USER(2, Names.ROLE_USER);
+    ROLE_ADMIN(Names.ROLE_ADMIN),
+    ROLE_USER(Names.ROLE_USER);
 
-    SecurityRole(int id, String name) {
-        this.id = id;
+    SecurityRole(String name) {
         this.name = name;
     }
 

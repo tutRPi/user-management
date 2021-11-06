@@ -23,9 +23,9 @@ public class RoleByUser {
     @JoinColumn(name = "nm_user_id", referencedColumnName = "nm_id")
     @ManyToOne(optional = false)
     private User nmUserId;
-    @JoinColumn(name = "nm_role_id", referencedColumnName = "nm_id")
+    @JoinColumn(name = "role", referencedColumnName = "ds_name")
     @ManyToOne(optional = false)
-    private Role nmRoleId;
+    private Role role;
 
     @Override
     public int hashCode() {
@@ -48,7 +48,7 @@ public class RoleByUser {
         return "com.example.usermanagement.business.security.model.RoleByUser{" +
                 "nmId=" + nmId +
                 ", nmUserId=" + nmUserId +
-                ", nmRoleId=" + nmRoleId +
+                ", role=" + role +
                 '}';
     }
 }
