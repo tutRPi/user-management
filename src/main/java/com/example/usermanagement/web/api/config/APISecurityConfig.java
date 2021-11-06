@@ -5,6 +5,7 @@ import com.example.usermanagement.web.api.common.filter.JWTProcessorFilter;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.controller.JWTController;
 import com.example.usermanagement.web.api.v1.controller.UserAuthenticationController;
+import com.example.usermanagement.web.api.v1.controller.UserEmailConfirmTokenController;
 import com.example.usermanagement.web.api.v1.controller.UserSignUpController;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -82,6 +83,8 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(Constants.API_VERSION_PATH + UserSignUpController.PATH)
                 .permitAll()
                 .antMatchers(Constants.API_VERSION_PATH + JWTController.PATH)
+                .permitAll()
+                .antMatchers(Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH)
                 .permitAll()
                 .anyRequest()
                 .authenticated()

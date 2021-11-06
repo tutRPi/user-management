@@ -16,8 +16,9 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "ConfirmationToken.findAll", query = "SELECT c FROM ConfirmationToken c"),
         @NamedQuery(name = "ConfirmationToken.findByNmId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmId = :nmId"),
-        @NamedQuery(name = "ConfirmationToken.findByDsToken", query = "SELECT c FROM ConfirmationToken c WHERE c.dsToken = :dsToken"),
-        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmUserId.nmId = :userId")})
+        @NamedQuery(name = "ConfirmationToken.findByToken", query = "SELECT c FROM ConfirmationToken c WHERE c.dsToken = :token"),
+        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmUserId.nmId = :userId"),
+        @NamedQuery(name = "ConfirmationToken.updateConfirmedAt", query = "UPDATE ConfirmationToken c SET c.dtConfirmedAt = :dtConfirmedAt WHERE c.dsToken = :dsToken")})
 public class ConfirmationToken {
 
     @SequenceGenerator(name = "confirmation_token_sequence", sequenceName = "confirmation_token_sequence", allocationSize = 1)
@@ -27,8 +28,9 @@ public class ConfirmationToken {
     @Column(name = "nm_id")
     private Long nmId;
 
+    @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "ds_token")
     private String dsToken;
 
     @JoinColumn(name = "nm_user_id", referencedColumnName = "nm_id")
