@@ -34,6 +34,7 @@ public class UserSignUpController {
         toSignUp.setDsEmail(userSignUpRequest.getEmail());
         toSignUp.setDsFirstName(userSignUpRequest.getFirstName());
         toSignUp.setDsLastName(userSignUpRequest.getLastName());
+        // TODO set locked, enabled
         toSignUp.setDsPassword(this.passwordEncoder.encode(userSignUpRequest.getPassword()));
         toSignUp.setYn2faEnabled(userSignUpRequest.isT2FAEnabled());
         toSignUp.setDtCreatedOn(new Date());

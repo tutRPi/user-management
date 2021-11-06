@@ -22,6 +22,8 @@ import java.util.Date;
         @NamedQuery(name = "User.findByDsLastName", query = "SELECT u FROM User u WHERE u.dsLastName = :dsLastName"),
         @NamedQuery(name = "User.findByDtEmailVerifiedOn", query = "SELECT u FROM User u WHERE u.dtEmailVerifiedOn = :dtEmailVerifiedOn"),
         @NamedQuery(name = "User.findByYn2faEnabled", query = "SELECT u FROM User u WHERE u.yn2faEnabled = :yn2faEnabled"),
+        @NamedQuery(name = "User.findByYnLocked", query = "SELECT u FROM User u WHERE u.ynLocked = :ynLocked"),
+        @NamedQuery(name = "User.findByYnEnabled", query = "SELECT u FROM User u WHERE u.ynEnabled = :ynEnabled"),
         @NamedQuery(name = "User.findByDtCreatedOn", query = "SELECT u FROM User u WHERE u.dtCreatedOn = :dtCreatedOn"),
         @NamedQuery(name = "User.findByDtLastLoginOn", query = "SELECT u FROM User u WHERE u.dtLastLoginOn = :dtLastLoginOn"),
         @NamedQuery(name = "User.findByDtDeletedOn", query = "SELECT u FROM User u WHERE u.dtExpiredOn = :dtDeletedOn"),
@@ -62,6 +64,12 @@ public class User implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "ds_2fa_secret")
     private String ds2faSecret;
+    @NotNull
+    @Column(name = "yn_locked", columnDefinition = "boolean default false")
+    private boolean ynLocked;
+    @NotNull
+    @Column(name = "yn_enabled", columnDefinition = "boolean default false")
+    private boolean ynEnabled;
     @Basic(optional = false)
     @NotNull
     @Column(name = "dt_created_on")
@@ -111,6 +119,8 @@ public class User implements Serializable {
                 ", dsPassword='" + dsPassword + '\'' +
                 ", dtEmailVerifiedOn=" + dtEmailVerifiedOn +
                 ", yn2faEnabled=" + yn2faEnabled +
+                ", ynLocked=" + ynLocked +
+                ", ynEnabled=" + ynEnabled +
                 ", ds2faSecret='" + ds2faSecret + '\'' +
                 ", dtCreatedOn=" + dtCreatedOn +
                 ", dtLastLoginOn=" + dtLastLoginOn +
