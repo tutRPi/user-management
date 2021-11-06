@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> findById(Integer userId) {
+    public Optional<User> findById(Long userId) {
         return userRepository.findByNmId(userId);
     }
 
@@ -46,7 +46,7 @@ public class UserService {
         return userRepository.findByDsEmail(email);
     }
 
-    public boolean existsByEmail(String email, Integer userId) {
+    public boolean existsByEmail(String email, Long userId) {
         return userRepository.existsByEmail(email, userId);
     }
 }

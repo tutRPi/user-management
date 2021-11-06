@@ -12,7 +12,7 @@ public class RoleByUserService {
     @Autowired
     private RoleByUserRepository roleByUserRepository;
 
-    public List<RoleByUser> findByUserId(int userId) {
+    public List<RoleByUser> findByUserId(long userId) {
         return this.roleByUserRepository.findByUserId(userId);
     }
 }

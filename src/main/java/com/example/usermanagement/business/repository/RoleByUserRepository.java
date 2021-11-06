@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RoleByUserRepository extends JpaRepository<RoleByUser, Integer> {
-    List<RoleByUser> findByUserId(int userId);
+    List<RoleByUser> findByUserId(long userId);
 }

@@ -34,7 +34,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "nm_id")
-    private Integer nmId;
+    private Long nmId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
