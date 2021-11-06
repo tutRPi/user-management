@@ -1,6 +1,7 @@
 package com.example.usermanagement.business.service;
 
 import com.example.usermanagement.business.common.SecurityRole;
+import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.Role;
 import com.example.usermanagement.business.model.RoleByUser;
 import com.example.usermanagement.business.model.User;
@@ -9,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -20,7 +21,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Transactional
-    public User signUp(User user) {
+    public User signUp(User user, ConfirmationToken confirmationToken) {
         // Logic to assign the user role
         RoleByUser roleByUser = new RoleByUser();
         Role role = new Role();
@@ -31,6 +32,12 @@ public class UserService {
         List<RoleByUser> rolesByUser = new ArrayList<>();
         rolesByUser.add(roleByUser);
         user.setRolesByUserCollection(rolesByUser);
+
+        // set confirmation token
+        List<ConfirmationToken> confirmationTokensByUser = new ArrayList<>();
+        confirmationTokensByUser.add(confirmationToken);
+        user.setConfirmationTokensByUserCollection(confirmationTokensByUser);
+
         return userRepository.save(user);
     }
 

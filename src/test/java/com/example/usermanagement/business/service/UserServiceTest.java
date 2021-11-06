@@ -1,5 +1,6 @@
 package com.example.usermanagement.business.service;
 
+import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +28,8 @@ class UserServiceTest {
         when(userRepository.save(any())).then(returnsFirstArg());
 
         User user = new User();
-        User result = cut.signUp(user);
+        ConfirmationToken token = new ConfirmationToken();
+        User result = cut.signUp(user, token);
         Assertions.assertTrue(result.getRolesByUserCollection().size() >= 1);
     }
 }

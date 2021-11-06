@@ -81,6 +81,8 @@ public class User implements Serializable {
     private Date dtExpiredOn;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nmUserId")
     private Collection<RoleByUser> rolesByUserCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nmUserId")
+    private Collection<ConfirmationToken> confirmationTokensByUserCollection;
 
     @Override
     public int hashCode() {
@@ -118,6 +120,7 @@ public class User implements Serializable {
                 ", dtDisabledOn=" + dtDisabledOn +
                 ", dtExpiredOn=" + dtExpiredOn +
                 ", rolesByUserCollection=" + rolesByUserCollection +
+                ", confirmationTokensByUserCollection=" + confirmationTokensByUserCollection +
                 '}';
     }
 }

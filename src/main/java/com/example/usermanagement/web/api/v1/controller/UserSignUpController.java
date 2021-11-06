@@ -1,7 +1,9 @@
 package com.example.usermanagement.web.api.v1.controller;
 
 import com.example.usermanagement.business.common.SecurityHelper;
+import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.User;
+import com.example.usermanagement.business.service.ConfirmationTokenService;
 import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.UserSignUpRequest;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
@@ -28,6 +33,9 @@ public class UserSignUpController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
+
     @PostMapping(path = PATH)
     public ResponseEntity<UserAccountDataResponse> doUserSignUp(@RequestBody @Valid UserSignUpRequest userSignUpRequest) {
         User toSignUp = new User();
@@ -38,11 +46,22 @@ public class UserSignUpController {
         toSignUp.setYn2faEnabled(userSignUpRequest.isT2FAEnabled());
         toSignUp.setDtCreatedOn(new Date());
 
+        ConfirmationToken token = new ConfirmationToken();
+        token.setDsToken(UUID.randomUUID().toString().replace("-", ""));
+        token.setNmUserId(toSignUp);
+        token.setDtCreatedOn(new Date());
+        token.setDtExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusHours(24)));
+
         if (userSignUpRequest.isT2FAEnabled()) {
             //Generate 2FA random secret
             toSignUp.setDs2faSecret(SecurityHelper.generateSecretKey());
         }
-        User signedUp = this.userService.signUp(toSignUp);
+        User signedUp = this.userService.signUp(toSignUp, token);
+
+        // send email
+        // TODO
+
+        // Build the response
         UserAccountDataResponse response = new UserAccountDataResponse();
         if (userSignUpRequest.isT2FAEnabled()) {
             //Generate 2FA qr code image url
