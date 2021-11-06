@@ -17,8 +17,7 @@ import java.util.Date;
         @NamedQuery(name = "ConfirmationToken.findAll", query = "SELECT c FROM ConfirmationToken c"),
         @NamedQuery(name = "ConfirmationToken.findByNmId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmId = :nmId"),
         @NamedQuery(name = "ConfirmationToken.findByToken", query = "SELECT c FROM ConfirmationToken c WHERE c.dsToken = :token"),
-        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmUserId.nmId = :userId"),
-        @NamedQuery(name = "ConfirmationToken.updateConfirmedAt", query = "UPDATE ConfirmationToken c SET c.dtConfirmedAt = :dtConfirmedAt WHERE c.dsToken = :dsToken")})
+        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmUserId.nmId = :userId")})
 public class ConfirmationToken {
 
     @SequenceGenerator(name = "confirmation_token_sequence", sequenceName = "confirmation_token_sequence", allocationSize = 1)

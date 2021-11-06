@@ -59,7 +59,7 @@ public class UserSignUpController {
         User signedUp = this.userService.signUp(toSignUp, token);
 
         // send email
-        // TODO
+        confirmationTokenService.sendConfirmationLink(signedUp.getDsEmail(), token);
 
         // Build the response
         UserAccountDataResponse response = new UserAccountDataResponse();

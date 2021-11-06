@@ -11,6 +11,4 @@ public interface ConfirmationToklenRepository extends JpaRepository<Confirmation
     Optional<ConfirmationToken> findByToken(String token);
 
     List<ConfirmationToken> findByUserId(long userId);
-
-    int updateConfirmedAt(String dsToken, Date dtConfirmedAt);
 }

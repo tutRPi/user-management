@@ -26,6 +26,7 @@ public class UserEmailConfirmTokenController {
                 .orElseThrow(() -> new IllegalStateException("Token not found."));
 
         if (confirmationToken.getNmUserId().getDtEmailVerifiedOn() != null) {
+            // TODO change with better error message
             throw new IllegalStateException("User already confirmed.");
         }
 

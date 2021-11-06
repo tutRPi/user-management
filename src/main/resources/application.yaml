@@ -2,11 +2,6 @@
 spring:
   profiles:
     active: development
-  # Security configuration
-#  security:
-#    user:
-#      name: user
-#      password: user
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -24,11 +19,10 @@ spring:
     generate-ddl: true
   # Email Settings
   mail:
-    host: localhost
-    port: 1025
+    host: localhost # email-smtp.us-west-2.amazonaws.com
+    port: 1025 # 25
     username: hello
     password: hello
-
     properties:
       mail:
         smtp:
@@ -51,4 +45,4 @@ logging:
 server:
   port: 8080
 #  servlet:
-#    context-path: /security-starter
+#    context-path: /user-management
