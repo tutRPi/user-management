@@ -3,6 +3,7 @@ package com.example.usermanagement.web.api.v1.controller;
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
 import com.example.usermanagement.web.api.v1.Constants;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Slf4j
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
+@Tag(name = "registration")
 public class UserEmailConfirmTokenController {
     public static final String PATH = "/user/confirm";
 

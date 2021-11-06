@@ -8,6 +8,7 @@ import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.UserDataRequest;
 import com.example.usermanagement.web.api.v1.response.UserAccountDataResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
 @RolesAllowed({SecurityRole.Names.ROLE_ADMIN, SecurityRole.Names.ROLE_USER})
+@Tag(name = "user-details")
 public class UserUpdateController implements SecuredRestController {
     public static final String PATH = "/user";
 

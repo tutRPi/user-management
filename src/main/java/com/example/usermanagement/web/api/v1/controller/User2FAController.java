@@ -7,6 +7,7 @@ import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.T2FACodeVerificationRequest;
 import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.aerogear.security.otp.Totp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
 @RolesAllowed({SecurityRole.Names.ROLE_2FA_CODE_VERIFICATION})
+@Tag(name = "login")
 public class User2FAController implements SecuredRestController {
     public static final String PATH = "/user/2fa";
 

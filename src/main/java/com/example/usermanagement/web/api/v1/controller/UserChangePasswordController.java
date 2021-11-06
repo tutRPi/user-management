@@ -7,6 +7,7 @@ import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.web.api.common.response.BaseResponse;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.ChangePasswordRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
 @RolesAllowed({SecurityRole.Names.ROLE_ADMIN, SecurityRole.Names.ROLE_USER})
+@Tag(name = "user-details")
 public class UserChangePasswordController implements SecuredRestController {
     public static final String PATH = "/user/password";
 

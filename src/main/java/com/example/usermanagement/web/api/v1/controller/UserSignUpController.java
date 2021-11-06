@@ -8,6 +8,7 @@ import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.UserSignUpRequest;
 import com.example.usermanagement.web.api.v1.response.UserAccountDataResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
+@Tag(name = "registration")
 public class UserSignUpController {
     public static final String PATH = "/user/signup";
 

@@ -5,6 +5,7 @@ import com.example.usermanagement.web.api.common.delegate.AuthenticationDelegate
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.AuthenticationRequest;
 import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
+@Tag(name = "login")
 public class UserAuthenticationController {
     public static final String PATH = "/user/auth";
 

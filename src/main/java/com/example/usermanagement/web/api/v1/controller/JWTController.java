@@ -4,6 +4,7 @@ import com.example.usermanagement.web.api.common.delegate.JWTProcessorDelegate;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.JWTVerificationRequest;
 import com.example.usermanagement.web.api.v1.response.JWTVerificationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
+@Tag(name = "login")
 public class JWTController {
     public static final String PATH = "/jwt/verify";
 
