@@ -1,3 +1,5 @@
+Run `docker-compose build` and `docker-compose up`
+
 
 
 Build Postgres Docker

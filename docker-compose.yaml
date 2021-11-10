@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  db:
+    build: ./db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    restart: always
+  maildev:
+    image: "maildev/maildev"
+    ports:
+      - "1080:80"
+      - "1025:25"
