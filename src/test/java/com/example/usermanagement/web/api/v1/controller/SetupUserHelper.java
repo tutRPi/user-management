@@ -54,21 +54,21 @@ public class SetupUserHelper {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         Role role = new Role();
-        role.setDtCreatedOn(new Date());
-        role.setDsName(SecurityRole.ROLE_USER.getName());
+        role.setCreatedOn(new Date());
+        role.setName(SecurityRole.ROLE_USER.getName());
         entityManager.persist(role);
 
         user = new User();
-        user.setDsEmail(UUID.randomUUID().toString() + "@example.com");
-        user.setDsPassword(this.passwordEncoder.encode("Passw0rd!123"));
-        user.setDsFirstName("First");
-        user.setDsLastName("Last");
-        user.setYn2faEnabled(true);
-        user.setDtCreatedOn(new Date());
+        user.setEmail(UUID.randomUUID().toString() + "@example.com");
+        user.setPassword(this.passwordEncoder.encode("Passw0rd!123"));
+        user.setFirstName("First");
+        user.setLastName("Last");
+        user.setTwoFaEnabled(true);
+        user.setCreatedOn(new Date());
 
         RoleByUser roleByUser = new RoleByUser();
         roleByUser.setRole(role);
-        roleByUser.setNmUserId(user);
+        roleByUser.setUser(user);
         List<RoleByUser> rolesByUser = new ArrayList<>();
         rolesByUser.add(roleByUser);
         user.setRolesByUserCollection(rolesByUser);
@@ -76,10 +76,10 @@ public class SetupUserHelper {
 
         token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setDsToken(token);
-        confirmationToken.setNmUserId(user);
-        confirmationToken.setDtCreatedOn(new Date());
-        confirmationToken.setDtExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
+        confirmationToken.setToken(token);
+        confirmationToken.setUser(user);
+        confirmationToken.setCreatedOn(new Date());
+        confirmationToken.setExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
 
         List<ConfirmationToken> confirmationTokensByUser = new ArrayList<>();
         confirmationTokensByUser.add(confirmationToken);

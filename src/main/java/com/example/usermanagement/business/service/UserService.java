@@ -23,9 +23,9 @@ public class UserService {
         // Logic to assign the user role
         RoleByUser roleByUser = new RoleByUser();
         Role role = new Role();
-        role.setDsName(SecurityRole.ROLE_USER.getName());
+        role.setName(SecurityRole.ROLE_USER.getName());
         roleByUser.setRole(role);
-        roleByUser.setNmUserId(user);
+        roleByUser.setUser(user);
         // TODO also add ROLE_2FA_CODE_VERIFICATION?
         List<RoleByUser> rolesByUser = new ArrayList<>();
         rolesByUser.add(roleByUser);
@@ -44,11 +44,11 @@ public class UserService {
     }
 
     public Optional<User> findById(Long userId) {
-        return userRepository.findByNmId(userId);
+        return userRepository.findById(userId);
     }
 
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByDsEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public boolean existsByEmail(String email, Long userId) {

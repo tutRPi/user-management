@@ -35,7 +35,7 @@ class CustomUserDetailsServiceTest {
     @Test
     void loadUserByUsername_success() {
         User user = new User();
-        user.setDsEmail("test@user.com");
+        user.setEmail("test@user.com");
         when(userService.findByEmail(any())).thenReturn(java.util.Optional.of(user));
 
         UserDetails result = cut.loadUserByUsername("test");

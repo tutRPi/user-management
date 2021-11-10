@@ -41,27 +41,27 @@ public class UserSignUpController {
     @PostMapping(path = PATH)
     public ResponseEntity<UserAccountDataResponse> doUserSignUp(@RequestBody @Valid UserSignUpRequest userSignUpRequest) {
         User toSignUp = new User();
-        toSignUp.setDsEmail(userSignUpRequest.getEmail());
-        toSignUp.setDsFirstName(userSignUpRequest.getFirstName());
-        toSignUp.setDsLastName(userSignUpRequest.getLastName());
-        toSignUp.setDsPassword(this.passwordEncoder.encode(userSignUpRequest.getPassword()));
-        toSignUp.setYn2faEnabled(userSignUpRequest.isT2FAEnabled());
-        toSignUp.setDtCreatedOn(new Date());
+        toSignUp.setEmail(userSignUpRequest.getEmail());
+        toSignUp.setFirstName(userSignUpRequest.getFirstName());
+        toSignUp.setLastName(userSignUpRequest.getLastName());
+        toSignUp.setPassword(this.passwordEncoder.encode(userSignUpRequest.getPassword()));
+        toSignUp.setTwoFaEnabled(userSignUpRequest.isT2FAEnabled());
+        toSignUp.setCreatedOn(new Date());
 
         ConfirmationToken token = new ConfirmationToken();
-        token.setDsToken(UUID.randomUUID().toString().replace("-", ""));
-        token.setNmUserId(toSignUp);
-        token.setDtCreatedOn(new Date());
-        token.setDtExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
+        token.setToken(UUID.randomUUID().toString().replace("-", ""));
+        token.setUser(toSignUp);
+        token.setCreatedOn(new Date());
+        token.setExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
 
         if (userSignUpRequest.isT2FAEnabled()) {
             //Generate 2FA random secret
-            toSignUp.setDs2faSecret(SecurityHelper.generateSecretKey());
+            toSignUp.setTwoFaSecret(SecurityHelper.generateSecretKey());
         }
         User signedUp = this.userService.signUp(toSignUp, token);
 
         // send email
-        confirmationTokenService.sendConfirmationLink(signedUp.getDsEmail(), token);
+        confirmationTokenService.sendConfirmationLink(signedUp.getEmail(), token);
 
         // Build the response
         UserAccountDataResponse response = new UserAccountDataResponse();
@@ -69,7 +69,7 @@ public class UserSignUpController {
             //Generate 2FA qr code image url
             response.setT2FAQRCodeImageURL(SecurityHelper.generate2FAQRCodeImageURL(signedUp));
         }
-        response.setT2FAEnabled(signedUp.isYn2faEnabled());
+        response.setT2FAEnabled(signedUp.isTwoFaEnabled());
         return ResponseEntity.ok(response);
     }
 }

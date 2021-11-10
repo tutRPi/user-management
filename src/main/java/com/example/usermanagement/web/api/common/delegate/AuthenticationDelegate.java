@@ -24,9 +24,9 @@ public class AuthenticationDelegate {
         Collection<RoleByUser> rolesByUser = null;
         if (loginProcessCompleted) {
             //Updating last login date for the user
-            user.setDtLastLoginOn(new Date());
+            user.setLastLoginOn(new Date());
             this.userService.save(user);
-            rolesByUser = this.roleByUserService.findByUserId(user.getNmId());
+            rolesByUser = this.roleByUserService.findByUserId(user.getId());
         }
 
         String jwt = JWTUtils.buildJWT(user, rolesByUser, !loginProcessCompleted);

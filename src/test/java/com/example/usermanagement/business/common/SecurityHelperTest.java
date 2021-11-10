@@ -21,8 +21,8 @@ class SecurityHelperTest {
         String account = "test@example.com";
 
         User user = new User();
-        user.setDs2faSecret(secretKey);
-        user.setDsEmail(account);
+        user.setTwoFaSecret(secretKey);
+        user.setEmail(account);
 
         String result = SecurityHelper.generate2FAQRCodeImageURL(user);
         Assertions.assertTrue(result.endsWith(

@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface ConfirmationToklenRepository extends JpaRepository<ConfirmationToken, Long> {
+public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
     Optional<ConfirmationToken> findByToken(String token);
 
     List<ConfirmationToken> findByUserId(long userId);

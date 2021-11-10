@@ -38,13 +38,13 @@ public class UserChangePasswordController implements SecuredRestController {
     public ResponseEntity<BaseResponse> doChangePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //The only data that can be updated is the data related to the logged user
-        User toUpdate = userService.findById(customUserDetails.getUser().getNmId()).get();
+        User toUpdate = userService.findById(customUserDetails.getUser().getId()).get();
 
         ResponseEntity<BaseResponse> toRet;
-        if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getDsPassword())) {
-            toUpdate.setDsPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
+        if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getPassword())) {
+            toUpdate.setPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
             userService.save(toUpdate);
-            customUserDetails.getUser().setDsPassword(toUpdate.getDsPassword());
+            customUserDetails.getUser().setPassword(toUpdate.getPassword());
             toRet = ResponseEntity.ok().build();
         } else {
             BaseResponse baseResponse = new BaseResponse();

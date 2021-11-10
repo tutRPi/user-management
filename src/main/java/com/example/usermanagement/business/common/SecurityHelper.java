@@ -20,7 +20,7 @@ public class SecurityHelper {
     }
 
     public static String generate2FAQRCodeImageURL(User user) {
-        return QR_PREFIX + getGoogleAuthenticatorBarCode(user.getDs2faSecret(), user.getDsEmail(), "MY_APP");
+        return QR_PREFIX + getGoogleAuthenticatorBarCode(user.getTwoFaSecret(), user.getEmail(), "MY_APP");
     }
 
     private static String getGoogleAuthenticatorBarCode(String secretKey, String account, String issuer) {

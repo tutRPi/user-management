@@ -16,10 +16,8 @@ import java.util.Date;
 @Table(name = "tbl_roles")
 @NamedQueries({
         @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-        @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.dsName = :dsName"),
-        @NamedQuery(name = "Role.findByDsName", query = "SELECT r FROM Role r WHERE r.dsName = :dsName"),
-        @NamedQuery(name = "Role.findByDtCreatedOn", query = "SELECT r FROM Role r WHERE r.dtCreatedOn = :dtCreatedOn"),
-        @NamedQuery(name = "Role.findByDtDeletedOn", query = "SELECT r FROM Role r WHERE r.dtDeletedOn = :dtDeletedOn")})
+        @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")
+})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,23 +25,23 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "ds_name")
-    private String dsName;
+    @Column(name = "name")
+    private String name;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dt_created_on")
+    @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtCreatedOn;
-    @Column(name = "dt_deleted_on")
+    private Date createdOn;
+    @Column(name = "deleted_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtDeletedOn;
+    private Date deletedOn;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<RoleByUser> usersByRoleCollection;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (dsName != null ? dsName.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         return hash;
     }
 
@@ -53,7 +51,7 @@ public class Role implements Serializable {
             return false;
         }
         Role other = (Role) object;
-        if ((this.dsName == null && other.dsName != null) || (this.dsName != null && !this.dsName.equals(other.dsName))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
         return true;
@@ -62,9 +60,9 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "com.example.usermanagement.business.security.model.Role{" +
-                ", dsName='" + dsName + '\'' +
-                ", dtCreatedOn=" + dtCreatedOn +
-                ", dtDeletedOn=" + dtDeletedOn +
+                ", dsName='" + name + '\'' +
+                ", dtCreatedOn=" + createdOn +
+                ", dtDeletedOn=" + deletedOn +
                 ", usersByRoleCollection=" + usersByRoleCollection +
                 '}';
     }

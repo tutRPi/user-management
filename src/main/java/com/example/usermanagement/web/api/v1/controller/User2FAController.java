@@ -44,7 +44,7 @@ public class User2FAController implements SecuredRestController {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         // Verify 2fa
-        Totp totp = new Totp(customUserDetails.getUser().getDs2faSecret());
+        Totp totp = new Totp(customUserDetails.getUser().getTwoFaSecret());
         if (totp.verify(t2FACodeVerificationRequest.getT2FACode())) {
             authenticationResponse = this.authenticationDelegate.doAuthentication(customUserDetails.getUser(), true);
             toRet = ResponseEntity.ok().body(authenticationResponse);

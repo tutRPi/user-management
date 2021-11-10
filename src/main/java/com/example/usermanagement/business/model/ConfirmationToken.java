@@ -15,41 +15,40 @@ import java.util.Date;
 @Table(name = "tbl_confirmation_tokens")
 @NamedQueries({
         @NamedQuery(name = "ConfirmationToken.findAll", query = "SELECT c FROM ConfirmationToken c"),
-        @NamedQuery(name = "ConfirmationToken.findByNmId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmId = :nmId"),
-        @NamedQuery(name = "ConfirmationToken.findByToken", query = "SELECT c FROM ConfirmationToken c WHERE c.dsToken = :token"),
-        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.nmUserId.nmId = :userId")})
+        @NamedQuery(name = "ConfirmationToken.findByToken", query = "SELECT c FROM ConfirmationToken c WHERE c.token = :token"),
+        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.user.id = :userId")})
 public class ConfirmationToken {
 
     @SequenceGenerator(name = "confirmation_token_sequence", sequenceName = "confirmation_token_sequence", allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "confirmation_token_sequence")
     @Basic(optional = false)
-    @Column(name = "nm_id")
-    private Long nmId;
+    @Column(name = "id")
+    private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ds_token")
-    private String dsToken;
+    @Column(name = "token")
+    private String token;
 
-    @JoinColumn(name = "nm_user_id", referencedColumnName = "nm_id")
+    @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User nmUserId;
+    private User user;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dt_created_on")
+    @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtCreatedOn;
+    private Date createdOn;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dt_expires_at")
+    @Column(name = "expires_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtExpiresAt;
+    private Date expiresAt;
 
-    @Column(name = "dt_confirmed_at")
+    @Column(name = "confirmed_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtConfirmedAt;
+    private Date confirmedAt;
 
 }

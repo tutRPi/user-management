@@ -17,6 +17,6 @@ public class UniqueEmailChangeEmailValidator implements ConstraintValidator<Uniq
     public boolean isValid(ChangeEmailRequest changeEmailRequest, ConstraintValidatorContext constraintValidatorContext) {
         //The only data that can be updated is the data related to the logged user
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return !this.userService.existsByEmail(changeEmailRequest.getEmail(), customUserDetails.getUser().getNmId());
+        return !this.userService.existsByEmail(changeEmailRequest.getEmail(), customUserDetails.getUser().getId());
     }
 }

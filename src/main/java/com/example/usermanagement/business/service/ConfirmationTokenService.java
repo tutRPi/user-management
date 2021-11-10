@@ -2,7 +2,7 @@ package com.example.usermanagement.business.service;
 
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.User;
-import com.example.usermanagement.business.repository.ConfirmationToklenRepository;
+import com.example.usermanagement.business.repository.ConfirmationTokenRepository;
 import com.example.usermanagement.business.service.mail.EmailService;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.controller.UserEmailConfirmTokenController;
@@ -20,7 +20,7 @@ import java.util.*;
 @Service
 public class ConfirmationTokenService {
     @Autowired
-    ConfirmationToklenRepository confirmationTokenRepository;
+    ConfirmationTokenRepository confirmationTokenRepository;
 
     @Autowired
     UserService userService;
@@ -41,10 +41,10 @@ public class ConfirmationTokenService {
 
     @Transactional
     public Date setConfirmedAt(ConfirmationToken token) {
-        User user = token.getNmUserId();
+        User user = token.getUser();
         Date verifiedOn = new Date();
-        user.setDtEmailVerifiedOn(verifiedOn);
-        token.setDtConfirmedAt(verifiedOn);
+        user.setEmailVerifiedOn(verifiedOn);
+        token.setConfirmedAt(verifiedOn);
         userService.save(user);
         confirmationTokenRepository.save(token);
         return verifiedOn;
@@ -54,7 +54,7 @@ public class ConfirmationTokenService {
         try {
             String host = InetAddress.getLocalHost().getHostName();
             String port = (serverPort != 80) ? ":" + serverPort : "";
-            String link = "//" + host + port + Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH + "?token=" + confirmationToken.getDsToken();
+            String link = "//" + host + port + Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH + "?token=" + confirmationToken.getToken();
 
             emailService.sendSimpleMessage(to, "Confirmation Link", link);
 

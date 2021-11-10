@@ -16,78 +16,70 @@ import java.util.Date;
 @Table(name = "tbl_users")
 @NamedQueries({
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-        @NamedQuery(name = "User.findByNmId", query = "SELECT u FROM User u WHERE u.nmId = :nmId"),
-        @NamedQuery(name = "User.findByDsEmail", query = "SELECT u FROM User u WHERE u.dsEmail = :dsEmail"),
-        @NamedQuery(name = "User.findByDsFirstName", query = "SELECT u FROM User u WHERE u.dsFirstName = :dsFirstName"),
-        @NamedQuery(name = "User.findByDsLastName", query = "SELECT u FROM User u WHERE u.dsLastName = :dsLastName"),
-        @NamedQuery(name = "User.findByDtEmailVerifiedOn", query = "SELECT u FROM User u WHERE u.dtEmailVerifiedOn = :dtEmailVerifiedOn"),
-        @NamedQuery(name = "User.findByYn2faEnabled", query = "SELECT u FROM User u WHERE u.yn2faEnabled = :yn2faEnabled"),
-        @NamedQuery(name = "User.findByDtCreatedOn", query = "SELECT u FROM User u WHERE u.dtCreatedOn = :dtCreatedOn"),
-        @NamedQuery(name = "User.findByDtLastLoginOn", query = "SELECT u FROM User u WHERE u.dtLastLoginOn = :dtLastLoginOn"),
-        @NamedQuery(name = "User.findByDtDeletedOn", query = "SELECT u FROM User u WHERE u.dtExpiredOn = :dtDeletedOn"),
-        @NamedQuery(name = "User.existsByEmail", query = "SELECT (count(u.nmId) > 0) as exists FROM User u WHERE u.dsEmail = :email and u.nmId <> :userId")})
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+        @NamedQuery(name = "User.existsByEmail", query = "SELECT (count(u.id) > 0) as exists FROM User u WHERE u.email = :email and u.id <> :userId")})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "nm_id")
-    private Long nmId;
+    @Column(name = "id")
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "ds_email")
-    private String dsEmail;
+    @Column(name = "email")
+    private String email;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "ds_first_name")
-    private String dsFirstName;
+    @Column(name = "first_name")
+    private String firstName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "ds_last_name")
-    private String dsLastName;
+    @Column(name = "last_name")
+    private String lastName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "ds_password")
-    private String dsPassword;
-    @Column(name = "dt_email_verified_on")
+    @Column(name = "password")
+    private String password;
+    @Column(name = "email_verified_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtEmailVerifiedOn;
+    private Date emailVerifiedOn;
     @NotNull
-    @Column(name = "yn_2fa_enabled")
-    private boolean yn2faEnabled;
+    @Column(name = "two_fa_enabled")
+    private boolean twoFaEnabled;
     @Size(min = 1, max = 100)
-    @Column(name = "ds_2fa_secret")
-    private String ds2faSecret;
+    @Column(name = "two_fa_secret")
+    private String twoFaSecret;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dt_created_on")
+    @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtCreatedOn;
-    @Column(name = "dt_last_login_on")
+    private Date createdOn;
+    @Column(name = "last_login_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtLastLoginOn;
-    @Column(name = "dt_locked_on")
+    private Date lastLoginOn;
+    @Column(name = "locked_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtLockedOn;
-    @Column(name = "dt_disabled_on")
+    private Date lockedOn;
+    @Column(name = "disabled_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtDisabledOn;
-    @Column(name = "dt_expired_on")
+    private Date disabledOn;
+    @Column(name = "expired_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dtExpiredOn;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nmUserId")
+    private Date expiredOn;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<RoleByUser> rolesByUserCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nmUserId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<ConfirmationToken> confirmationTokensByUserCollection;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (nmId != null ? nmId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -97,7 +89,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.nmId == null && other.nmId != null) || (this.nmId != null && !this.nmId.equals(other.nmId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -106,19 +98,19 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.example.usermanagement.business.security.model.User{" +
-                "nmId=" + nmId +
-                ", dsEmail='" + dsEmail + '\'' +
-                ", dsFirstName='" + dsFirstName + '\'' +
-                ", dsLastName='" + dsLastName + '\'' +
-                ", dsPassword='" + dsPassword + '\'' +
-                ", dtEmailVerifiedOn=" + dtEmailVerifiedOn +
-                ", yn2faEnabled=" + yn2faEnabled +
-                ", ds2faSecret='" + ds2faSecret + '\'' +
-                ", dtCreatedOn=" + dtCreatedOn +
-                ", dtLastLoginOn=" + dtLastLoginOn +
-                ", dtLockedOn=" + dtLockedOn +
-                ", dtDisabledOn=" + dtDisabledOn +
-                ", dtExpiredOn=" + dtExpiredOn +
+                "nmId=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", emailVerifiedOn=" + emailVerifiedOn +
+                ", twoFaEnabled=" + twoFaEnabled +
+                ", twoFaSecret='" + twoFaSecret + '\'' +
+                ", createdOn=" + createdOn +
+                ", lastLoginOn=" + lastLoginOn +
+                ", lockedOn=" + lockedOn +
+                ", disabledOn=" + disabledOn +
+                ", expiredOn=" + expiredOn +
                 ", rolesByUserCollection=" + rolesByUserCollection +
                 ", confirmationTokensByUserCollection=" + confirmationTokensByUserCollection +
                 '}';

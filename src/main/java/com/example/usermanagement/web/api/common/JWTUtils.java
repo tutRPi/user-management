@@ -16,7 +16,7 @@ public class JWTUtils {
         Date tokenExpirationDate = new Date(tokenIssuedAtDate.getTime() + WebSecurityConstants.JWT_EXPIRATION_MILLIS);
 
         Claims claims = Jwts.claims();
-        claims.setSubject(user.getDsEmail())
+        claims.setSubject(user.getEmail())
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(tokenIssuedAtDate)
                 .setExpiration(tokenExpirationDate);
@@ -29,7 +29,7 @@ public class JWTUtils {
         } else {
             //Set all real user security roles from db
             rolesByUser.stream().forEach(roleByUser -> {
-                securityRolesList.add(roleByUser.getRole().getDsName());
+                securityRolesList.add(roleByUser.getRole().getName());
             });
         }
         claims.put(WebSecurityConstants.JWT_ROLES_CLAIM_KEY, securityRolesList);

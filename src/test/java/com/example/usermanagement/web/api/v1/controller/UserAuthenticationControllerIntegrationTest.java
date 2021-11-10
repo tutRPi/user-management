@@ -46,7 +46,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_userDisabled() throws Exception {
-        user.setDtDisabledOn(new Date());
+        user.setDisabledOn(new Date());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -66,7 +66,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_userLocked() throws Exception {
-        user.setDtLockedOn(new Date());
+        user.setLockedOn(new Date());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -86,7 +86,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_wrongPassword() throws Exception {
-        user.setDtEmailVerifiedOn(new Date());
+        user.setEmailVerifiedOn(new Date());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -107,7 +107,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_success() throws Exception {
-        user.setDtEmailVerifiedOn(new Date());
+        user.setEmailVerifiedOn(new Date());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -128,7 +128,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     private AuthenticationRequest getAuthenticationRequest() {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest();
-        authenticationRequest.setUsername(user.getDsEmail());
+        authenticationRequest.setUsername(user.getEmail());
         authenticationRequest.setPassword("Passw0rd!123");
         return authenticationRequest;
     }

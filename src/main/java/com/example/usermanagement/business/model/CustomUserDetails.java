@@ -28,22 +28,22 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.user.getDsPassword();
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.user.getDsEmail();
+        return this.user.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.user.getDtExpiredOn() == null;
+        return this.user.getExpiredOn() == null;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.user.getDtLockedOn() == null;
+        return this.user.getLockedOn() == null;
     }
 
     @Override
@@ -53,6 +53,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.getDtDisabledOn() == null && this.user.getDtEmailVerifiedOn() != null;
+        return this.user.getDisabledOn() == null && this.user.getEmailVerifiedOn() != null;
     }
 }

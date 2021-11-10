@@ -27,16 +27,16 @@ public class UserEmailConfirmTokenController {
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
                 .orElseThrow(() -> new IllegalStateException("Token not found."));
 
-        if (confirmationToken.getNmUserId().getDtEmailVerifiedOn() != null) {
+        if (confirmationToken.getUser().getEmailVerifiedOn() != null) {
             // TODO change with better error message
             throw new IllegalStateException("User already confirmed.");
         }
 
-        if (confirmationToken.getDtConfirmedAt() != null) {
+        if (confirmationToken.getConfirmedAt() != null) {
             throw new IllegalStateException("Email already confirmed.");
         }
 
-        Date expiresAt = confirmationToken.getDtExpiresAt();
+        Date expiresAt = confirmationToken.getExpiresAt();
 
         if (expiresAt.before(new Date())) {
             throw new IllegalStateException("Token expired");

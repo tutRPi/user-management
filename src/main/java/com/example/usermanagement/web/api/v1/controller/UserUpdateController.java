@@ -34,22 +34,22 @@ public class UserUpdateController implements SecuredRestController {
     public ResponseEntity<UserAccountDataResponse> doUpdate(@RequestBody @Valid UserDataRequest userDataRequest) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //The only data that can be updated is the data related to the logged user
-        User toUpdate = userService.findById(customUserDetails.getUser().getNmId()).get();
-        toUpdate.setDsFirstName(userDataRequest.getFirstName());
-        toUpdate.setDsLastName(userDataRequest.getLastName());
+        User toUpdate = userService.findById(customUserDetails.getUser().getId()).get();
+        toUpdate.setFirstName(userDataRequest.getFirstName());
+        toUpdate.setLastName(userDataRequest.getLastName());
 
         UserAccountDataResponse response = new UserAccountDataResponse();
-        if (userDataRequest.isT2FAEnabled() && !toUpdate.isYn2faEnabled()) {
+        if (userDataRequest.isT2FAEnabled() && !toUpdate.isTwoFaEnabled()) {
             //User has activated 2FA
             //Generate 2FA random secret and qr code image url
-            toUpdate.setDs2faSecret(SecurityHelper.generateSecretKey());
+            toUpdate.setTwoFaSecret(SecurityHelper.generateSecretKey());
             response.setT2FAQRCodeImageURL(SecurityHelper.generate2FAQRCodeImageURL(toUpdate));
         } else if (!userDataRequest.isT2FAEnabled()) {
             //User has deactivated 2FA
-            toUpdate.setDs2faSecret(null);
+            toUpdate.setTwoFaSecret(null);
         }
-        toUpdate.setYn2faEnabled(userDataRequest.isT2FAEnabled());
-        response.setT2FAEnabled(toUpdate.isYn2faEnabled());
+        toUpdate.setTwoFaEnabled(userDataRequest.isT2FAEnabled());
+        response.setT2FAEnabled(toUpdate.isTwoFaEnabled());
         this.userService.save(toUpdate);
 
         return ResponseEntity.ok(response);
