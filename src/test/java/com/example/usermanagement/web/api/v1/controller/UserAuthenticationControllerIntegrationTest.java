@@ -5,6 +5,7 @@ import com.example.usermanagement.UserManagementApplication;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import com.example.usermanagement.web.api.v1.request.AuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,11 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setUp() {
+        loadDbData(true);
+    }
 
     @Test
     void doAuthentication_userNotConfirmed() throws Exception {

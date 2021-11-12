@@ -6,7 +6,6 @@ import com.example.usermanagement.business.model.Role;
 import com.example.usermanagement.business.model.RoleByUser;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,8 +48,8 @@ public class SetupUserHelper {
     protected User user;
     protected String token;
 
-    @BeforeEach
-    public void setUp() {
+
+    public void loadDbData(boolean twoFaEnabled) {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         Role role = new Role();
@@ -63,7 +62,7 @@ public class SetupUserHelper {
         user.setPassword(this.passwordEncoder.encode("Passw0rd!123"));
         user.setFirstName("First");
         user.setLastName("Last");
-        user.setTwoFaEnabled(true);
+        user.setTwoFaEnabled(twoFaEnabled);
         user.setCreatedOn(new Date());
 
         RoleByUser roleByUser = new RoleByUser();
