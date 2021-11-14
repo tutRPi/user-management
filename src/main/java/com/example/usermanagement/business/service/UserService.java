@@ -4,6 +4,7 @@ import com.example.usermanagement.business.common.SecurityRole;
 import com.example.usermanagement.business.model.*;
 import com.example.usermanagement.business.repository.PasswordResetTokenRepository;
 import com.example.usermanagement.business.repository.UserRepository;
+import com.example.usermanagement.util.RandomStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ import java.util.*;
 
 @Service
 public class UserService {
+
+    public static final int TOKEN_LENGTH = 64;
 
     @Autowired
     UserRepository userRepository;
@@ -27,7 +30,6 @@ public class UserService {
         role.setName(SecurityRole.ROLE_USER.getName());
         roleByUser.setRole(role);
         roleByUser.setUser(user);
-        // TODO also add ROLE_2FA_CODE_VERIFICATION?
         List<RoleByUser> rolesByUser = new ArrayList<>();
         rolesByUser.add(roleByUser);
         user.setRolesByUserCollection(rolesByUser);
@@ -40,9 +42,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void createPasswordResetTokenForUser(User user, String token) {
-        PasswordResetToken myToken = new PasswordResetToken(token, user);
-        passwordResetTokenRepository.save(myToken);
+    public PasswordResetToken createPasswordResetTokenForUser(User user) {
+        Optional<PasswordResetToken> existingToken = passwordResetTokenRepository.findByUser(user);
+        if (existingToken.isPresent()) {
+            if (existingToken.get().isValid()) {
+                return existingToken.get();
+            } else {
+                passwordResetTokenRepository.delete(existingToken.get());
+            }
+        }
+        String token = RandomStringUtil.getAlphaNumericString(TOKEN_LENGTH);
+        PasswordResetToken passwordResetToken = new PasswordResetToken(token, user);
+        passwordResetTokenRepository.save(passwordResetToken);
+        return passwordResetToken;
     }
 
 
