@@ -1,10 +1,8 @@
 package com.example.usermanagement.business.service;
 
 import com.example.usermanagement.business.common.SecurityRole;
-import com.example.usermanagement.business.model.ConfirmationToken;
-import com.example.usermanagement.business.model.Role;
-import com.example.usermanagement.business.model.RoleByUser;
-import com.example.usermanagement.business.model.User;
+import com.example.usermanagement.business.model.*;
+import com.example.usermanagement.business.repository.PasswordResetTokenRepository;
 import com.example.usermanagement.business.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Transactional
     public User signUp(User user, ConfirmationToken confirmationToken) {
@@ -38,6 +39,12 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public void createPasswordResetTokenForUser(User user, String token) {
+        PasswordResetToken myToken = new PasswordResetToken(token, user);
+        passwordResetTokenRepository.save(myToken);
+    }
+
 
     public User save(User user) {
         return userRepository.save(user);

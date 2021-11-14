@@ -31,7 +31,7 @@ public class ConfirmationToken {
     @Column(name = "token")
     private String token;
 
-    @JoinColumn(name = "user", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
 
@@ -51,4 +51,8 @@ public class ConfirmationToken {
     @Temporal(TemporalType.TIMESTAMP)
     private Date confirmedAt;
 
+
+    public boolean isValid() {
+        return this.getExpiresAt().after(new Date());
+    }
 }

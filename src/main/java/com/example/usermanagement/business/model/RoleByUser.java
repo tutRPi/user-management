@@ -19,7 +19,7 @@ public class RoleByUser {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "user", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
     @JoinColumn(name = "role", referencedColumnName = "name")

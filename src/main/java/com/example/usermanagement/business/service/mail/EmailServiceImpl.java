@@ -89,4 +89,13 @@ public class EmailServiceImpl implements EmailService {
         emailSender.send(message);
     }
 
+    @Override
+    public void send(SimpleMailMessage simpleMessage) throws MailException {
+        emailSender.send(simpleMessage);
+    }
+
+    @Override
+    public void send(SimpleMailMessage... simpleMessages) throws MailException {
+        emailSender.send(simpleMessages);
+    }
 }

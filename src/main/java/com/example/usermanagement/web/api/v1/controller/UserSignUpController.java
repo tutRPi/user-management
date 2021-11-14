@@ -5,6 +5,7 @@ import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
 import com.example.usermanagement.business.service.UserService;
+import com.example.usermanagement.util.RandomStringUtil;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.UserSignUpRequest;
 import com.example.usermanagement.web.api.v1.response.UserAccountDataResponse;
@@ -49,7 +50,7 @@ public class UserSignUpController {
         toSignUp.setCreatedOn(new Date());
 
         ConfirmationToken token = new ConfirmationToken();
-        token.setToken(UUID.randomUUID().toString().replace("-", ""));
+        token.setToken(RandomStringUtil.getAlphaNumericString());
         token.setUser(toSignUp);
         token.setCreatedOn(new Date());
         token.setExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
@@ -61,6 +62,7 @@ public class UserSignUpController {
         User signedUp = this.userService.signUp(toSignUp, token);
 
         // send email
+        // TODO use AppSettings.getAppUrl() inside
         confirmationTokenService.sendConfirmationLink(signedUp.getEmail(), token);
 
         // Build the response
