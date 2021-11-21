@@ -5,6 +5,7 @@ import com.example.usermanagement.business.service.CustomUserDetailsService;
 import com.example.usermanagement.web.api.common.JWTUtils;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Component
 public class JWTProcessorDelegate {
-    private static final Logger logger = LoggerFactory.getLogger(JWTProcessorDelegate.class);
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -51,7 +52,7 @@ public class JWTProcessorDelegate {
             if (securityRolesList != null && !securityRolesList.isEmpty()) {
                 securityRolesList.forEach(roleName -> {
                     grantedAuthorities.add(new SimpleGrantedAuthority(roleName));
-                    logger.debug("Added Granted Authority: " + roleName);
+                    log.debug("Added Granted Authority: " + roleName);
                 });
             }
         }
