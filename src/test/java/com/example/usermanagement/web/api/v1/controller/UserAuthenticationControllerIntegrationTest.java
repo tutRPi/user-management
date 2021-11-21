@@ -45,9 +45,9 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].field", is("username")));
-        resultActions.andExpect(jsonPath("errors[0].code", is(775)));
+        resultActions.andExpect(jsonPath("errorDetails", hasSize(1)));
+        resultActions.andExpect(jsonPath("errorDetails[0].field", is("username")));
+        resultActions.andExpect(jsonPath("errorDetails[0].code", is(775)));
     }
 
     @Test
@@ -65,9 +65,9 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].message").exists());
-        resultActions.andExpect(jsonPath("errors[0].code", is(775)));
+        resultActions.andExpect(jsonPath("errorDetails", hasSize(1)));
+        resultActions.andExpect(jsonPath("errorDetails[0].message").exists());
+        resultActions.andExpect(jsonPath("errorDetails[0].code", is(775)));
     }
 
     @Test
@@ -85,9 +85,9 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].field", is("username")));
-        resultActions.andExpect(jsonPath("errors[0].code", is(775)));
+        resultActions.andExpect(jsonPath("errorDetails", hasSize(1)));
+        resultActions.andExpect(jsonPath("errorDetails[0].field", is("username")));
+        resultActions.andExpect(jsonPath("errorDetails[0].code", is(775)));
     }
 
     @Test
@@ -106,9 +106,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isUnauthorized());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].message").exists());
-        resultActions.andExpect(jsonPath("errors[0].code", is(ErrorsEnum.BAD_CREDENTIALS.getCode())));
+        resultActions.andExpect(jsonPath("errorCode", is(52)));
     }
 
     @Test
@@ -126,7 +124,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.errors").doesNotExist());
+        resultActions.andExpect(jsonPath("$.errorDetails").doesNotExist());
         resultActions.andExpect(jsonPath("$.timestamp").exists());
         resultActions.andExpect(jsonPath("$.mustVerify2FACode", is(true)));
         resultActions.andExpect(jsonPath("$.jwt").exists());

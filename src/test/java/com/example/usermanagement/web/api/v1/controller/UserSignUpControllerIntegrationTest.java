@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = UserManagementApplication.class)
-public class UserSignUpControllerIntegrationTest extends SetupUserHelper {
+class UserSignUpControllerIntegrationTest extends SetupUserHelper {
 
     private static String SIGNUP_URL = "/api/v1/user/signup";
 
@@ -43,9 +43,9 @@ public class UserSignUpControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].field", is("email")));
-        resultActions.andExpect(jsonPath("errors[0].code", is(775)));
+        resultActions.andExpect(jsonPath("errorDetails", hasSize(1)));
+        resultActions.andExpect(jsonPath("errorDetails[0].field", is("email")));
+        resultActions.andExpect(jsonPath("errorDetails[0].code", is(775)));
     }
 
     @Test
@@ -61,9 +61,9 @@ public class UserSignUpControllerIntegrationTest extends SetupUserHelper {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print());
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("errors", hasSize(1)));
-        resultActions.andExpect(jsonPath("errors[0].field", is("email")));
-        resultActions.andExpect(jsonPath("errors[0].code", is(775)));
+        resultActions.andExpect(jsonPath("errorDetails", hasSize(1)));
+        resultActions.andExpect(jsonPath("errorDetails[0].field", is("email")));
+        resultActions.andExpect(jsonPath("errorDetails[0].code", is(775)));
     }
 
     @Test

@@ -2,7 +2,8 @@ package com.example.usermanagement.web.api.v1.controller;
 
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
-import com.example.usermanagement.web.api.common.response.exception.BadRequestException;
+import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -26,20 +27,20 @@ public class UserEmailConfirmTokenController {
     public ResponseEntity<String> confirm(@RequestParam("token") String token) {
 
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
-                .orElseThrow(() -> new BadRequestException("Token not found."));
+                .orElseThrow(() -> new CodeRuntimeException(ErrorsEnum.CONFIRM_TOKEN_NOT_FOUND));
 
         if (confirmationToken.getUser().getEmailVerifiedOn() != null) {
-            throw new BadRequestException("User is already confirmed");
+            throw new CodeRuntimeException(ErrorsEnum.ACCOUNT_ALREADY_CONFIRMED);
         }
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new BadRequestException("Email is already confirmed.");
+            throw new CodeRuntimeException(ErrorsEnum.EMAIL_ALREADY_CONFIRMED);
         }
 
         Date expiresAt = confirmationToken.getExpiresAt();
 
         if (expiresAt.before(new Date())) {
-            throw new BadRequestException("Token is expired.");
+            throw new CodeRuntimeException(ErrorsEnum.CONFIRM_TOKEN_EXPIRED);
         }
 
         confirmationTokenService.setConfirmedAt(confirmationToken);
