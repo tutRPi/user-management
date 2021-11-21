@@ -44,5 +44,8 @@ logging:
 # Server configuration
 server:
   port: 8080
+  error:
+    include-message: always
+    include-exception: false
 #  servlet:
 #    context-path: /user-management

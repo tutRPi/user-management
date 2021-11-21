@@ -1,6 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -17,7 +17,7 @@ public class UsernameNotFoundExceptionResponseComposer extends AbstractAuthentic
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(UsernameNotFoundException e) {
+    public ResponseEntity<ErrorResponse> compose(UsernameNotFoundException e) {
         return this.buildResponse(ErrorsEnum.USERNAME_NOT_FOUND);
     }
 }

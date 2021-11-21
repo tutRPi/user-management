@@ -1,6 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.core.Ordered;
@@ -17,7 +17,7 @@ public class MalformedJwtExceptionResponseComposer extends AbstractAuthenticatio
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(MalformedJwtException e) {
+    public ResponseEntity<ErrorResponse> compose(MalformedJwtException e) {
         return this.buildResponse(ErrorsEnum.JWT_MALFORMED);
     }
 }

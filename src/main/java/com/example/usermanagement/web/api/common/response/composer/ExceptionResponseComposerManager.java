@@ -1,10 +1,11 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,12 +28,13 @@ public class ExceptionResponseComposerManager {
         );
     }
 
-    public Optional<ResponseEntity<BaseResponse>> delegateResponseComposition(Exception ex) {
-        ResponseEntity<BaseResponse> toRet = null;
+    public Optional<ResponseEntity<ErrorResponse>> delegateResponseComposition(Exception ex, HttpServletRequest request) {
+        ResponseEntity<ErrorResponse> result = null;
         AbstractExceptionResponseComposer composer = this.exceptionResponseComposerMap.get(ex.getClass());
         if (composer != null) {
-            toRet = composer.compose(ex);
+            result = composer.compose(ex);
+            result.getBody().setPath(request.getRequestURI());
         }
-        return Optional.ofNullable(toRet);
+        return Optional.ofNullable(result);
     }
 }

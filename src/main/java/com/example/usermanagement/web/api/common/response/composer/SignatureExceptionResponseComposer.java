@@ -1,6 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.core.Ordered;
@@ -17,7 +17,7 @@ public class SignatureExceptionResponseComposer extends AbstractAuthenticationEx
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(SignatureException e) {
+    public ResponseEntity<ErrorResponse> compose(SignatureException e) {
         return this.buildResponse(ErrorsEnum.JWT_SIGNATURE_INVALID);
     }
 }

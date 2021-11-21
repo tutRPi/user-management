@@ -6,8 +6,6 @@ import com.example.usermanagement.web.api.common.JWTUtils;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +21,7 @@ import java.util.Set;
 public class JWTProcessorDelegate {
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    CustomUserDetailsService customUserDetailsService;
 
     public UsernamePasswordAuthenticationToken buildAuthenticationFromJWT(String jwt, boolean includeSecurityRolesClaim) {
         Claims claims = JWTUtils.parseClaims(jwt);

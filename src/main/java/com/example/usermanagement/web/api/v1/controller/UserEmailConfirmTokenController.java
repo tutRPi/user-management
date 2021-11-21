@@ -2,6 +2,7 @@ package com.example.usermanagement.web.api.v1.controller;
 
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
+import com.example.usermanagement.web.api.common.response.exception.BadRequestException;
 import com.example.usermanagement.web.api.v1.Constants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -25,21 +26,20 @@ public class UserEmailConfirmTokenController {
     public ResponseEntity<String> confirm(@RequestParam("token") String token) {
 
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
-                .orElseThrow(() -> new IllegalStateException("Token not found."));
+                .orElseThrow(() -> new BadRequestException("Token not found."));
 
         if (confirmationToken.getUser().getEmailVerifiedOn() != null) {
-            // TODO change with better error message
-            throw new IllegalStateException("User already confirmed.");
+            throw new BadRequestException("User is already confirmed");
         }
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("Email already confirmed.");
+            throw new BadRequestException("Email is already confirmed.");
         }
 
         Date expiresAt = confirmationToken.getExpiresAt();
 
         if (expiresAt.before(new Date())) {
-            throw new IllegalStateException("Token expired");
+            throw new BadRequestException("Token is expired.");
         }
 
         confirmationTokenService.setConfirmedAt(confirmationToken);

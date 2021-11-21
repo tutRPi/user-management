@@ -1,6 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -17,7 +17,7 @@ public class CredentialsExpiredExceptionResponseComposer extends AbstractAuthent
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(CredentialsExpiredException e) {
+    public ResponseEntity<ErrorResponse> compose(CredentialsExpiredException e) {
         return this.buildResponse(ErrorsEnum.CREDENTIALS_EXPIRED);
     }
 }

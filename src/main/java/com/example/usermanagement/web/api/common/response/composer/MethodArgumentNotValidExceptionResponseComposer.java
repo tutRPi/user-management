@@ -1,7 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
-import com.example.usermanagement.web.api.common.response.ResponseError;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +16,16 @@ public class MethodArgumentNotValidExceptionResponseComposer extends AbstractExc
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponse> compose(MethodArgumentNotValidException e) {
         //TODO: Finish this logic
-        BaseResponse toRet = new BaseResponse();
-        e.getBindingResult().getFieldErrors().forEach(objectError -> {
-            ResponseError responseError = new ResponseError();
-            responseError.setCode(775);
-            responseError.setField(objectError.getField());
-            responseError.setMessage(objectError.getDefaultMessage());
-            toRet.addResponseError(responseError);
-        });
+        ErrorResponse toRet = new ErrorResponse();
+//        e.getBindingResult().getFieldErrors().forEach(objectError -> {
+//            ErrorResponse errorResponse = new ErrorResponse();
+//            errorResponse.setCode(775);
+//            errorResponse.setField(objectError.getField());
+//            errorResponse.setMessage(objectError.getDefaultMessage());
+//            toRet.addResponseError(errorResponse);
+//        });
 
         return ResponseEntity.badRequest().body(toRet);
     }

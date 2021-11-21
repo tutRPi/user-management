@@ -1,6 +1,6 @@
 package com.example.usermanagement.web.api.common.response.composer;
 
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.core.Ordered;
@@ -17,7 +17,7 @@ public class ExpiredJwtExceptionResponseComposer extends AbstractAuthenticationE
     }
 
     @Override
-    public ResponseEntity<BaseResponse> compose(ExpiredJwtException e) {
+    public ResponseEntity<ErrorResponse> compose(ExpiredJwtException e) {
         return this.buildResponse(ErrorsEnum.JWT_EXPIRED);
     }
 }
