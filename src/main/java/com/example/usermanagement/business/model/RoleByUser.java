@@ -9,9 +9,6 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "tbl_user_roles")
-@NamedQueries({
-        @NamedQuery(name = "RoleByUser.findAll", query = "SELECT u FROM RoleByUser u"),
-        @NamedQuery(name = "RoleByUser.findByUserId", query = "SELECT ur FROM RoleByUser ur WHERE ur.user.id = :userId")})
 public class RoleByUser {
     private static final long serialVersionUID = 1L;
     @Id

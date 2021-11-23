@@ -14,10 +14,6 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "tbl_users")
-@NamedQueries({
-        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.existsByEmail", query = "SELECT (count(u.id) > 0) as exists FROM User u WHERE u.email = :email and u.id <> :userId")})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

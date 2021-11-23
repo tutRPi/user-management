@@ -13,10 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "tbl_confirmation_tokens")
-@NamedQueries({
-        @NamedQuery(name = "ConfirmationToken.findAll", query = "SELECT c FROM ConfirmationToken c"),
-        @NamedQuery(name = "ConfirmationToken.findByToken", query = "SELECT c FROM ConfirmationToken c WHERE c.token = :token"),
-        @NamedQuery(name = "ConfirmationToken.findByUserId", query = "SELECT c FROM ConfirmationToken c WHERE c.user.id = :userId")})
 public class ConfirmationToken {
 
     @SequenceGenerator(name = "confirmation_token_sequence", sequenceName = "confirmation_token_sequence", allocationSize = 1)
