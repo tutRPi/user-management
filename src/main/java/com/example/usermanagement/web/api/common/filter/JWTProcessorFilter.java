@@ -1,17 +1,21 @@
 package com.example.usermanagement.web.api.common.filter;
 
+import com.example.usermanagement.web.api.common.controller.ExceptionsControllerAdvice;
+import com.example.usermanagement.web.api.common.response.ErrorResponse;
+import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.usermanagement.web.api.Constants;
 import com.example.usermanagement.web.api.common.WebSecurityConstants;
 import com.example.usermanagement.web.api.common.delegate.JWTProcessorDelegate;
-import com.example.usermanagement.web.api.common.response.BaseResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @Component
 public class JWTProcessorFilter extends OncePerRequestFilter {
@@ -74,13 +79,15 @@ public class JWTProcessorFilter extends OncePerRequestFilter {
                 errorsEnum = ErrorsEnum.GENERIC_JWT_PROCESS;
             }
 
-            int httpStatusCode = HttpStatus.UNAUTHORIZED.value();
+            ResponseEntity<ErrorResponse> result = ExceptionsControllerAdvice.buildException(errorsEnum);
+
             ObjectMapper jacksonObjectMapper = new ObjectMapper();
-            BaseResponse toRet = new BaseResponse();
-            toRet.addResponseError(errorsEnum);
-            res.setStatus(httpStatusCode);
+            jacksonObjectMapper.registerModule(new JavaTimeModule());
+            jacksonObjectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+
+            res.setStatus(result.getStatusCode().value());
             res.setContentType("application/json");
-            res.getOutputStream().write(jacksonObjectMapper.writeValueAsBytes(toRet));
+            res.getOutputStream().write(jacksonObjectMapper.writeValueAsBytes(result.getBody()));
         }
     }
 }

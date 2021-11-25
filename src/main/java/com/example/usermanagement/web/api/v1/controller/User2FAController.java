@@ -4,6 +4,7 @@ import com.example.usermanagement.business.common.SecurityRole;
 import com.example.usermanagement.business.model.CustomUserDetails;
 import com.example.usermanagement.web.api.common.delegate.AuthenticationDelegate;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.T2FACodeVerificationRequest;
 import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
@@ -49,10 +50,7 @@ public class User2FAController implements SecuredRestController {
             authenticationResponse = this.authenticationDelegate.doAuthentication(customUserDetails.getUser(), true);
             toRet = ResponseEntity.ok().body(authenticationResponse);
         } else {
-            authenticationResponse = new AuthenticationResponse();
-            authenticationResponse.addResponseError(ErrorsEnum.INVALID_2FA_CODE);
-            authenticationResponse.setMustVerify2FACode(true);
-            toRet = ResponseEntity.status(HttpStatus.NOT_FOUND).body(authenticationResponse);
+            throw new CodeRuntimeException(ErrorsEnum.INVALID_2FA_CODE);
         }
 
         return toRet;

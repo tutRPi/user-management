@@ -61,7 +61,7 @@ public class ExceptionsControllerAdvice {
         return Optional.ofNullable(result).orElseThrow(() -> ex);
     }
 
-    private ResponseEntity<ErrorResponse> buildException(ErrorsEnum errorsEnum) {
+    public static ResponseEntity<ErrorResponse> buildException(ErrorsEnum errorsEnum) {
         ErrorResponse response = new ErrorResponse();
         response.setStatus(errorsEnum.getHttpStatus().value());
         response.setError(errorsEnum.getHttpStatus().getReasonPhrase());

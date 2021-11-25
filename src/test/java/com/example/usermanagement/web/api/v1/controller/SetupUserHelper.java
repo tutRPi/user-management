@@ -55,7 +55,6 @@ public class SetupUserHelper {
         Role role = new Role();
         role.setCreatedOn(new Date());
         role.setName(SecurityRole.ROLE_USER.getName());
-        entityManager.persist(role);
 
         user = new User();
         user.setEmail(UUID.randomUUID().toString() + "@example.com");

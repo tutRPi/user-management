@@ -5,6 +5,8 @@ import com.example.usermanagement.business.model.CustomUserDetails;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.ChangePasswordRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,19 +42,16 @@ public class UserChangePasswordController implements SecuredRestController {
         //The only data that can be updated is the data related to the logged user
         User toUpdate = userService.findById(customUserDetails.getUser().getId()).get();
 
-        ResponseEntity<BaseResponse> toRet;
         if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getPassword())) {
+            ResponseEntity<BaseResponse> result;
             toUpdate.setPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
             userService.save(toUpdate);
             customUserDetails.getUser().setPassword(toUpdate.getPassword());
-            toRet = ResponseEntity.ok().build();
+            result = ResponseEntity.ok().build();
+            return result;
         } else {
-            BaseResponse baseResponse = new BaseResponse();
-            // TODO: Error Codes and rules for changing passwords (not equal or whatever)
-            baseResponse.addResponseError(99, "The current password does not match.");
-            toRet = ResponseEntity.status(HttpStatus.NOT_FOUND).body(baseResponse);
+            throw new CodeRuntimeException(ErrorsEnum.PASSWORD_DOES_NOT_MATCH);
         }
 
-        return toRet;
     }
 }

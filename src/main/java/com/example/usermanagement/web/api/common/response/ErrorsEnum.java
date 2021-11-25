@@ -17,6 +17,7 @@ public enum ErrorsEnum {
     JWT_MALFORMED(59, HttpStatus.UNAUTHORIZED, "The JWT is malformed"),
     JWT_SIGNATURE_INVALID(60,HttpStatus.UNAUTHORIZED,  "The signature of the JWT is not valid, token may be tampered"),
     INVALID_2FA_CODE(61, HttpStatus.UNAUTHORIZED, "The 2FA code is not valid"),
+    PASSWORD_DOES_NOT_MATCH(62, HttpStatus.NOT_FOUND, "The current password does not match"),
 
     CONFIRM_TOKEN_NOT_FOUND(70, HttpStatus.BAD_REQUEST,"Token not found."),
     CONFIRM_TOKEN_EXPIRED(71, HttpStatus.BAD_REQUEST,"Token is expired."),

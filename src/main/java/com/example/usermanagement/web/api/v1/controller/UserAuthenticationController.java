@@ -5,6 +5,7 @@ import com.example.usermanagement.web.api.common.delegate.AuthenticationDelegate
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.AuthenticationRequest;
 import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class UserAuthenticationController {
     AuthenticationDelegate authenticationDelegate;
 
     @PostMapping(path = PATH)
+    @Operation(summary = "Login to get JWT")
     public ResponseEntity<AuthenticationResponse> doAuthentication(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
         final Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
