@@ -55,3 +55,6 @@ server:
     include-exception: false
 #  servlet:
 #    context-path: /user-management
+# Kafka Configuration
+kafka:
+  bootstrapAddress: localhost:22181
