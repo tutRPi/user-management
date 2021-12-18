@@ -1,16 +1,21 @@
 package com.example.usermanagement.business.service;
 
+import com.example.usermanagement.business.config.EventPublisherConfiguration;
+import com.example.usermanagement.business.dto.SendMailTemplateMessage;
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.repository.ConfirmationTokenRepository;
-import com.example.usermanagement.business.service.mail.EmailService;
+import com.example.usermanagement.util.AppSettings;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.controller.UserEmailConfirmTokenController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,7 +31,10 @@ public class ConfirmationTokenService {
     UserService userService;
 
     @Autowired
-    EmailService emailService;
+    MessageSource emailMessageSource;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Value("${server.port}")
     int serverPort;
@@ -50,15 +58,21 @@ public class ConfirmationTokenService {
         return verifiedOn;
     }
 
-    public void sendConfirmationLink(String to, ConfirmationToken confirmationToken) {
+    public void sendConfirmationLink(String to, ConfirmationToken confirmationToken, HttpServletRequest request) {
         try {
-            String host = InetAddress.getLocalHost().getHostName();
-            String port = (serverPort != 80) ? ":" + serverPort : "";
-            String link = "//" + host + port + Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH + "?token=" + confirmationToken.getToken();
+            String link = AppSettings.getAppUrl(request) + Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH + "?token=" + confirmationToken.getToken();
 
-            emailService.sendSimpleMessage(to, "Confirmation Link", link);
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("url", link);
 
-        } catch (UnknownHostException e) {
+            SendMailTemplateMessage sendMailTemplateMessage = new SendMailTemplateMessage();
+            sendMailTemplateMessage.setReceiver(to);
+            sendMailTemplateMessage.setSubject(emailMessageSource.getMessage("title.confirmationLink", null, request.getLocale()));
+            sendMailTemplateMessage.setTemplateName("confirmationLink.html");
+            sendMailTemplateMessage.setTemplateModel(templateModel);
+            rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL, sendMailTemplateMessage);
+
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }

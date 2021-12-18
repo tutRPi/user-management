@@ -18,28 +18,11 @@ spring:
     open-in-view: false
     generate-ddl: true
     defer-datasource-initialization: true
-  # Email Settings
-  mail:
-    host: localhost # email-smtp.us-west-2.amazonaws.com
-    port: 1025 # 25
-    username: hello
-    password: hello
-    properties:
-      mail:
-        smtp:
-          ssl:
-            trust: "*"
-          auth: true
-          starttls:
-            enable: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
-    templates:
-      path: mail-templates
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 # Logger configuration
 logging:
   pattern:
@@ -55,6 +38,3 @@ server:
     include-exception: false
 #  servlet:
 #    context-path: /user-management
-# Kafka Configuration
-kafka:
-  bootstrapAddress: localhost:22181

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -40,7 +41,7 @@ public class UserSignUpController {
     ConfirmationTokenService confirmationTokenService;
 
     @PostMapping(path = PATH)
-    public ResponseEntity<UserAccountDataResponse> doUserSignUp(@RequestBody @Valid UserSignUpRequest userSignUpRequest) {
+    public ResponseEntity<UserAccountDataResponse> doUserSignUp(HttpServletRequest request, @RequestBody @Valid UserSignUpRequest userSignUpRequest) {
         User toSignUp = new User();
         toSignUp.setEmail(userSignUpRequest.getEmail());
         toSignUp.setFirstName(userSignUpRequest.getFirstName());
@@ -62,8 +63,7 @@ public class UserSignUpController {
         User signedUp = this.userService.signUp(toSignUp, token);
 
         // send email
-        // TODO use AppSettings.getAppUrl() inside
-        confirmationTokenService.sendConfirmationLink(signedUp.getEmail(), token);
+        confirmationTokenService.sendConfirmationLink(signedUp.getEmail(), token, request);
 
         // Build the response
         UserAccountDataResponse response = new UserAccountDataResponse();
