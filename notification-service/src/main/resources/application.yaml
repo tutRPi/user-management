@@ -1,0 +1,39 @@
+# Spring Boot configuration
+spring:
+  profiles:
+    active: development
+  # Email Settings
+  mail:
+    host: localhost # email-smtp.us-west-2.amazonaws.com
+    port: 1025 # 25
+    username: hello
+    password: hello
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+    templates:
+      path: mail-templates
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Logger configuration
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework: info
+    org.hibernate: debug

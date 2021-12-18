@@ -1,4 +1,4 @@
-package com.example.usermanagement.business.service.mail;
+package com.example.notificationservice.service.mail;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.mail.MailSender;

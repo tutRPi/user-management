@@ -1,11 +1,4 @@
-package com.example.usermanagement.business.service.mail;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+package com.example.notificationservice.service.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -17,6 +10,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 @Service("EmailService")
 public class EmailServiceImpl implements EmailService {
