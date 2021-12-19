@@ -12,13 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 @Slf4j
@@ -29,9 +26,6 @@ public class ConfirmationTokenService {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    MessageSource emailMessageSource;
 
     @Autowired
     RabbitTemplate rabbitTemplate;
@@ -65,12 +59,14 @@ public class ConfirmationTokenService {
             Map<String, Object> templateModel = new HashMap<>();
             templateModel.put("url", link);
 
-            SendMailTemplateMessage sendMailTemplateMessage = new SendMailTemplateMessage();
-            sendMailTemplateMessage.setReceiver(to);
-            sendMailTemplateMessage.setSubject(emailMessageSource.getMessage("title.confirmationLink", null, request.getLocale()));
-            sendMailTemplateMessage.setTemplateName("confirmationLink.html");
-            sendMailTemplateMessage.setTemplateModel(templateModel);
-            rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL, sendMailTemplateMessage);
+            rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL,
+                    new SendMailTemplateMessage(
+                            to,
+                            request.getLocale().getLanguage(),
+                            "title.confirmationLink",
+                            "confirmationLink.html",
+                            templateModel
+                    ));
 
         } catch (Exception e) {
             log.error(e.getMessage());

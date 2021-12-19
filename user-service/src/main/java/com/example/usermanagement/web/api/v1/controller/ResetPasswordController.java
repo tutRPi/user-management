@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +44,6 @@ public class ResetPasswordController {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    MessageSource emailMessageSource;
-
-    @Autowired
     RabbitTemplate rabbitTemplate;
 
     @PostMapping(path = PATH)
@@ -61,12 +57,13 @@ public class ResetPasswordController {
                 Map<String, Object> templateModel = new HashMap<>();
                 templateModel.put("url", AppSettings.getAppUrl(request) + PATH + "?token=" + passwordResetToken.getToken());
 
-                SendMailTemplateMessage sendMailTemplateMessage = new SendMailTemplateMessage();
-                sendMailTemplateMessage.setReceiver(user.get().getEmail());
-                sendMailTemplateMessage.setSubject(emailMessageSource.getMessage("title.resetPassword", null, request.getLocale()));
-                sendMailTemplateMessage.setTemplateName("passwordResetLink.html");
-                sendMailTemplateMessage.setTemplateModel(templateModel);
-                rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL, sendMailTemplateMessage);
+                rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL,
+                        new SendMailTemplateMessage(
+                                user.get().getEmail(),
+                                request.getLocale().getLanguage(),
+                                "title.resetPassword",
+                                "passwordResetLink.html",
+                                templateModel));
 
             } catch (Exception e) {
                 log.error(e.getLocalizedMessage());
@@ -93,12 +90,14 @@ public class ResetPasswordController {
                 userService.save(userToUpdate.get());
                 // send confirmation email
                 try {
-                    SendMailTemplateMessage sendMailTemplateMessage = new SendMailTemplateMessage();
-                    sendMailTemplateMessage.setReceiver(userToUpdate.get().getEmail());
-                    sendMailTemplateMessage.setSubject(emailMessageSource.getMessage("title.passwordHasBeenReset", null, request.getLocale()));
-                    sendMailTemplateMessage.setTemplateName("confirmPasswordReset.html");
-                    sendMailTemplateMessage.setTemplateModel(new HashMap<>());
-                    rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL, sendMailTemplateMessage);
+                    rabbitTemplate.convertAndSend(EventPublisherConfiguration.QUEUE_SEND_MAIL,
+                            new SendMailTemplateMessage(
+                                    userToUpdate.get().getEmail(),
+                                    request.getLocale().getLanguage(),
+                                    "title.passwordHasBeenReset",
+                                    "confirmPasswordReset.html",
+                                    new HashMap<>()
+                            ));
                 } catch (Exception e) {
                     log.error(e.getLocalizedMessage());
                 }

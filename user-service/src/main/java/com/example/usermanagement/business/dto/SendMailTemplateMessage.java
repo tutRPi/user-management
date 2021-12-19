@@ -1,8 +1,9 @@
 package com.example.usermanagement.business.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
@@ -12,19 +13,18 @@ import java.util.Map;
 @Component
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude
 public class SendMailTemplateMessage implements Serializable {
-    @JsonProperty("version")
-    final int version = 1;
 
-    @JsonProperty("receiver")
     String receiver;
 
-    @JsonProperty("subject")
-    String subject;
+    String language;
 
-    @JsonProperty("templateName")
+    String subjectKey;
+
     String templateName;
 
-    @JsonProperty("templateModel")
     transient Map<String, Object> templateModel;
 }

@@ -3,7 +3,7 @@ package com.example.notificationservice.dto;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -11,19 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
+@JsonInclude
 public class SendMailTemplateMessage implements Serializable {
-    @JsonProperty("version")
-    int version;
 
-    @JsonProperty("receiver")
     String receiver;
 
-    @JsonProperty("subject")
-    String subject;
+    String language;
 
-    @JsonProperty("templateName")
+    String subjectKey;
+
     String templateName;
 
-    @JsonProperty("templateModel")
     transient Map<String, Object> templateModel;
 }
