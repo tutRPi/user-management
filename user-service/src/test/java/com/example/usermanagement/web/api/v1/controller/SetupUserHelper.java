@@ -62,7 +62,6 @@ public class SetupUserHelper {
         user.setFirstName("First");
         user.setLastName("Last");
         user.setTwoFaEnabled(twoFaEnabled);
-        user.setCreatedOn(new Date());
 
         RoleByUser roleByUser = new RoleByUser();
         roleByUser.setRole(role);

@@ -48,7 +48,6 @@ public class UserSignUpController {
         toSignUp.setLastName(userSignUpRequest.getLastName());
         toSignUp.setPassword(this.passwordEncoder.encode(userSignUpRequest.getPassword()));
         toSignUp.setTwoFaEnabled(userSignUpRequest.isT2FAEnabled());
-        toSignUp.setCreatedOn(new Date());
 
         ConfirmationToken token = new ConfirmationToken();
         token.setToken(RandomStringUtil.getAlphaNumericString());

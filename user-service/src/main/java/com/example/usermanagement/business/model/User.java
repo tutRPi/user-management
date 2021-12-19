@@ -14,59 +14,66 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "tbl_users")
-public class User implements Serializable {
+public class User extends Auditable<String> implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "first_name")
     private String firstName;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "last_name")
     private String lastName;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
+
     @Column(name = "email_verified_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date emailVerifiedOn;
+
     @NotNull
     @Column(name = "two_fa_enabled")
     private boolean twoFaEnabled;
+
     @Size(min = 1, max = 100)
     @Column(name = "two_fa_secret")
     private String twoFaSecret;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+
     @Column(name = "last_login_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginOn;
+
     @Column(name = "locked_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lockedOn;
+
     @Column(name = "disabled_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date disabledOn;
+
     @Column(name = "expired_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredOn;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<RoleByUser> rolesByUserCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -102,7 +109,7 @@ public class User implements Serializable {
                 ", emailVerifiedOn=" + emailVerifiedOn +
                 ", twoFaEnabled=" + twoFaEnabled +
                 ", twoFaSecret='" + twoFaSecret + '\'' +
-                ", createdOn=" + createdOn +
+                ", creationDate=" + creationDate +
                 ", lastLoginOn=" + lastLoginOn +
                 ", lockedOn=" + lockedOn +
                 ", disabledOn=" + disabledOn +
