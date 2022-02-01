@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -16,11 +16,11 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
 
     Optional<PasswordResetToken> findByUser(User user);
 
-    Stream<PasswordResetToken> findAllByExpiresAtLessThan(Date now);
+    Stream<PasswordResetToken> findAllByExpiresAtLessThan(Instant now);
 
-    void deleteByExpiresAtLessThan(Date now);
+    void deleteByExpiresAtLessThan(Instant now);
 
     @Modifying
     @Query("delete from PasswordResetToken t where t.expiresAt <= ?1")
-    void deleteAllExpiredSince(Date now);
+    void deleteAllExpiredSince(Instant now);
 }

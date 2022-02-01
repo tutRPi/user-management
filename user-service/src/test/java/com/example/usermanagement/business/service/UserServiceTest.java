@@ -5,7 +5,6 @@ import com.example.usermanagement.business.model.PasswordResetToken;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.repository.PasswordResetTokenRepository;
 import com.example.usermanagement.business.repository.UserRepository;
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -56,7 +56,7 @@ class UserServiceTest {
     void createPasswordResetTokenForUser_expiredExistingToken() {
         User user = new User();
         PasswordResetToken passwordResetToken = new PasswordResetToken("TEST TOKEN", user);
-        passwordResetToken.setExpiresAt(DateUtils.addMinutes(new Date(), -60));
+        passwordResetToken.setExpiresAt(Instant.now().minus(60, ChronoUnit.MINUTES));
         when(passwordResetTokenRepository.findByUser(user)).thenReturn(Optional.ofNullable(passwordResetToken));
 
         PasswordResetToken result = cut.createPasswordResetTokenForUser(user);

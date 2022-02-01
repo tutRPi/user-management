@@ -3,11 +3,11 @@ package com.example.usermanagement.business.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.time.DateUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Setter
@@ -34,16 +34,15 @@ public class PasswordResetToken {
     @Basic(optional = false)
     @NotNull
     @Column(name = "expires_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiresAt;
+    private Instant expiresAt;
 
     public PasswordResetToken(String token, User user) {
         this.token = token;
         this.user = user;
-        this.expiresAt = DateUtils.addMinutes(new Date(), EXPIRATION);
+        this.expiresAt = Instant.now().plus(EXPIRATION, ChronoUnit.MINUTES);
     }
 
     public boolean isValid() {
-        return this.getExpiresAt().after(new Date());
+        return this.getExpiresAt().isAfter(Instant.now());
     }
 }

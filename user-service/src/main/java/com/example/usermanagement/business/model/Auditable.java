@@ -12,10 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import java.util.Date;
-
-import static javax.persistence.TemporalType.TIMESTAMP;
+import java.time.Instant;
 
 @EqualsAndHashCode
 @ToString
@@ -24,21 +21,19 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 public abstract class Auditable<T> {
 
     @Column(name = "creation_date", updatable = false)
-    @Temporal(TIMESTAMP)
     @CreatedDate
-    protected Date creationDate;
+    protected Instant creationDate;
 
     @Column(name = "last_modified_date")
     @LastModifiedDate
-    @Temporal(TIMESTAMP)
-    protected Date lastModifiedDate;
+    protected Instant lastModifiedDate;
 
     @CreatedBy
-    @Column(name="created_by")
+    @Column(name = "created_by")
     protected T createdBy;
 
     @LastModifiedBy
-    @Column(name="modified_by")
+    @Column(name = "modified_by")
     protected T modifiedBy;
 
 }

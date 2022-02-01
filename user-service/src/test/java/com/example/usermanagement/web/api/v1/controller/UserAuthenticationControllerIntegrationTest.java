@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.Date;
+import java.time.Instant;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -52,7 +52,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_userDisabled() throws Exception {
-        user.setDisabledOn(new Date());
+        user.setDisabledOn(Instant.now());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -72,7 +72,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_userLocked() throws Exception {
-        user.setLockedOn(new Date());
+        user.setLockedOn(Instant.now());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -92,7 +92,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_wrongPassword() throws Exception {
-        user.setEmailVerifiedOn(new Date());
+        user.setEmailVerifiedOn(Instant.now());
         entityManager.persist(user);
         entityManager.flush();
 
@@ -111,7 +111,7 @@ class UserAuthenticationControllerIntegrationTest extends SetupUserHelper {
 
     @Test
     void doAuthentication_success() throws Exception {
-        user.setEmailVerifiedOn(new Date());
+        user.setEmailVerifiedOn(Instant.now());
         entityManager.persist(user);
         entityManager.flush();
 

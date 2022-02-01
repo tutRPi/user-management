@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -42,9 +43,9 @@ public class ConfirmationTokenService {
     }
 
     @Transactional
-    public Date setConfirmedAt(ConfirmationToken token) {
+    public Instant setConfirmedAt(ConfirmationToken token) {
         User user = token.getUser();
-        Date verifiedOn = new Date();
+        Instant verifiedOn = Instant.now();
         user.setEmailVerifiedOn(verifiedOn);
         token.setConfirmedAt(verifiedOn);
         userService.save(user);

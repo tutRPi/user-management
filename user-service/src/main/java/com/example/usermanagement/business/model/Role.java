@@ -7,8 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -30,11 +30,9 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    private Instant createdOn;
     @Column(name = "deleted_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deletedOn;
+    private Instant deletedOn;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<RoleByUser> usersByRoleCollection;
 

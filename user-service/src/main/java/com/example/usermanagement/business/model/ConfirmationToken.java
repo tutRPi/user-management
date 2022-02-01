@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -34,21 +34,18 @@ public class ConfirmationToken {
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    private Instant createdOn;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "expires_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiresAt;
+    private Instant expiresAt;
 
     @Column(name = "confirmed_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date confirmedAt;
+    private Instant confirmedAt;
 
 
     public boolean isValid() {
-        return this.getExpiresAt().after(new Date());
+        return this.getExpiresAt().isAfter(Instant.now());
     }
 }

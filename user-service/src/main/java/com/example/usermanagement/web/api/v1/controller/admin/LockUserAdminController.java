@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Optional;
 
 @Slf4j
@@ -45,7 +45,7 @@ public class LockUserAdminController {
         }
 
         if (lockUserRequest.isLock()) {
-            user.get().setLockedOn(new Date());
+            user.get().setLockedOn(Instant.now());
         } else {
             user.get().setLockedOn(null);
         }

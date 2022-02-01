@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Slf4j
 @RestController
@@ -37,9 +37,9 @@ public class UserEmailConfirmTokenController {
             throw new CodeRuntimeException(ErrorsEnum.EMAIL_ALREADY_CONFIRMED);
         }
 
-        Date expiresAt = confirmationToken.getExpiresAt();
+        Instant expiresAt = confirmationToken.getExpiresAt();
 
-        if (expiresAt.before(new Date())) {
+        if (expiresAt.isBefore(Instant.now())) {
             throw new CodeRuntimeException(ErrorsEnum.CONFIRM_TOKEN_EXPIRED);
         }
 

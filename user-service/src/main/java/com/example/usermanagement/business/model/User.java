@@ -7,8 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -47,8 +47,7 @@ public class User extends Auditable<String> implements Serializable {
     private String password;
 
     @Column(name = "email_verified_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date emailVerifiedOn;
+    private Instant emailVerifiedOn;
 
     @NotNull
     @Column(name = "two_fa_enabled")
@@ -59,20 +58,16 @@ public class User extends Auditable<String> implements Serializable {
     private String twoFaSecret;
 
     @Column(name = "last_login_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastLoginOn;
+    private Instant lastLoginOn;
 
     @Column(name = "locked_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lockedOn;
+    private Instant lockedOn;
 
     @Column(name = "disabled_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date disabledOn;
+    private Instant disabledOn;
 
     @Column(name = "expired_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiredOn;
+    private Instant expiredOn;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<RoleByUser> rolesByUserCollection;

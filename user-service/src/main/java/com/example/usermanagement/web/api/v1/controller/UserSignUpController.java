@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
@@ -52,8 +50,8 @@ public class UserSignUpController {
         ConfirmationToken token = new ConfirmationToken();
         token.setToken(RandomStringUtil.getAlphaNumericString());
         token.setUser(toSignUp);
-        token.setCreatedOn(new Date());
-        token.setExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
+        token.setCreatedOn(Instant.now());
+        token.setExpiresAt(Instant.now().plus(2, ChronoUnit.DAYS));
 
         if (userSignUpRequest.isT2FAEnabled()) {
             //Generate 2FA random secret

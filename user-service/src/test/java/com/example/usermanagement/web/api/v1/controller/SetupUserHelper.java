@@ -21,7 +21,6 @@ import javax.persistence.PersistenceContext;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +52,7 @@ public class SetupUserHelper {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         Role role = new Role();
-        role.setCreatedOn(new Date());
+        role.setCreatedOn(Instant.now());
         role.setName(SecurityRole.ROLE_USER.getName());
 
         user = new User();
@@ -75,8 +74,8 @@ public class SetupUserHelper {
         ConfirmationToken confirmationToken = new ConfirmationToken();
         confirmationToken.setToken(token);
         confirmationToken.setUser(user);
-        confirmationToken.setCreatedOn(new Date());
-        confirmationToken.setExpiresAt(Date.from(Instant.now().plus(2, ChronoUnit.DAYS)));
+        confirmationToken.setCreatedOn(Instant.now());
+        confirmationToken.setExpiresAt(Instant.now().plus(2, ChronoUnit.DAYS));
 
         List<ConfirmationToken> confirmationTokensByUser = new ArrayList<>();
         confirmationTokensByUser.add(confirmationToken);

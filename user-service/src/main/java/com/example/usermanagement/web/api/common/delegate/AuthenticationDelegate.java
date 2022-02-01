@@ -9,8 +9,8 @@ import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 
 @Component
 public class AuthenticationDelegate {
@@ -24,7 +24,7 @@ public class AuthenticationDelegate {
         Collection<RoleByUser> rolesByUser = null;
         if (loginProcessCompleted) {
             //Updating last login date for the user
-            user.setLastLoginOn(new Date());
+            user.setLastLoginOn(Instant.now());
             this.userService.save(user);
             rolesByUser = this.roleByUserService.findByUserId(user.getId());
         }
