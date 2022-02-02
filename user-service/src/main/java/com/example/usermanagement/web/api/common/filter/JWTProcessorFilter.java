@@ -2,7 +2,6 @@ package com.example.usermanagement.web.api.common.filter;
 
 import com.example.usermanagement.web.api.common.controller.ExceptionsControllerAdvice;
 import com.example.usermanagement.web.api.common.response.ErrorResponse;
-import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.usermanagement.web.api.Constants;
 import com.example.usermanagement.web.api.common.WebSecurityConstants;
@@ -16,6 +15,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +38,9 @@ public class JWTProcessorFilter extends OncePerRequestFilter {
 
     @Autowired
     private ServletContext servletContext;
+
+    @Autowired
+    Jackson2ObjectMapperBuilder mapperBuilder;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -81,9 +84,9 @@ public class JWTProcessorFilter extends OncePerRequestFilter {
 
             ResponseEntity<ErrorResponse> result = ExceptionsControllerAdvice.buildException(errorsEnum);
 
-            ObjectMapper jacksonObjectMapper = new ObjectMapper();
-            jacksonObjectMapper.registerModule(new JavaTimeModule());
-            jacksonObjectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            ObjectMapper jacksonObjectMapper = mapperBuilder.build();
+//            jacksonObjectMapper.registerModule(new JavaTimeModule());
+//            jacksonObjectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
             res.setStatus(result.getStatusCode().value());
             res.setContentType("application/json");
