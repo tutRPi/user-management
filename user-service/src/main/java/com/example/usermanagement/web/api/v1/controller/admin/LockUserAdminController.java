@@ -3,8 +3,8 @@ package com.example.usermanagement.web.api.v1.controller.admin;
 import com.example.usermanagement.business.common.SecurityRole;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.repository.UserRepository;
-import com.example.usermanagement.web.api.common.response.BaseResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.SuccessResponse;
 import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.LockUserRequest;
@@ -37,7 +37,7 @@ public class LockUserAdminController {
 
     @PostMapping(path = PATH)
     @Operation(summary = "Lock or unlock a User")
-    public ResponseEntity<BaseResponse> lockUser(@RequestBody @Valid LockUserRequest lockUserRequest) {
+    public ResponseEntity<SuccessResponse> lockUser(@RequestBody @Valid LockUserRequest lockUserRequest) {
 
         Optional<User> user = userRepository.findById(lockUserRequest.getUserId());
         if (user.isEmpty()) {
@@ -51,7 +51,7 @@ public class LockUserAdminController {
         }
         userRepository.save(user.get());
 
-        BaseResponse response = new BaseResponse();
+        SuccessResponse response = new SuccessResponse();
         return ResponseEntity.ok(response);
     }
 

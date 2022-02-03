@@ -7,7 +7,7 @@ import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.service.PasswordResetService;
 import com.example.usermanagement.business.service.UserService;
 import com.example.usermanagement.util.AppSettings;
-import com.example.usermanagement.web.api.common.response.BaseResponse;
+import com.example.usermanagement.web.api.common.response.SuccessResponse;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.ResetPasswordRequest;
 import com.example.usermanagement.web.api.v1.request.SimpleChangePasswordRequest;
@@ -47,7 +47,7 @@ public class ResetPasswordController {
     RabbitTemplate rabbitTemplate;
 
     @PostMapping(path = PATH)
-    public ResponseEntity<BaseResponse> sendResetPasswordLink(HttpServletRequest request, @RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
+    public ResponseEntity<SuccessResponse> sendResetPasswordLink(HttpServletRequest request, @RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
 
         Optional<User> user = userService.findByEmail(resetPasswordRequest.getEmail());
 
@@ -74,7 +74,7 @@ public class ResetPasswordController {
     }
 
     @PatchMapping(path = PATH)
-    public ResponseEntity<BaseResponse> verifyResetPassword(
+    public ResponseEntity<SuccessResponse> verifyResetPassword(
             HttpServletRequest request,
             @RequestParam @NotNull @Size(min = UserService.TOKEN_LENGTH, max = UserService.TOKEN_LENGTH) String token,
             @RequestBody @Valid SimpleChangePasswordRequest changePasswordRequest

@@ -3,6 +3,7 @@ package com.example.usermanagement.web.api.v1.controller;
 import com.example.usermanagement.business.model.ConfirmationToken;
 import com.example.usermanagement.business.service.ConfirmationTokenService;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.SuccessResponse;
 import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +25,7 @@ public class UserEmailConfirmTokenController {
     ConfirmationTokenService confirmationTokenService;
 
     @GetMapping(path = PATH)
-    public ResponseEntity<String> confirm(@RequestParam("token") String token) {
+    public ResponseEntity<SuccessResponse> confirm(@RequestParam("token") String token) {
 
         ConfirmationToken confirmationToken = confirmationTokenService.findByToken(token)
                 .orElseThrow(() -> new CodeRuntimeException(ErrorsEnum.CONFIRM_TOKEN_NOT_FOUND));
@@ -45,6 +46,6 @@ public class UserEmailConfirmTokenController {
 
         confirmationTokenService.setConfirmedAt(confirmationToken);
 
-        return ResponseEntity.ok("ok"); // TODO
+        return ResponseEntity.ok().build();
     }
 }

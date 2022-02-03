@@ -4,14 +4,13 @@ import com.example.usermanagement.business.common.SecurityRole;
 import com.example.usermanagement.business.model.CustomUserDetails;
 import com.example.usermanagement.business.model.User;
 import com.example.usermanagement.business.service.UserService;
-import com.example.usermanagement.web.api.common.response.BaseResponse;
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
+import com.example.usermanagement.web.api.common.response.SuccessResponse;
 import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
 import com.example.usermanagement.web.api.v1.request.ChangePasswordRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,13 +36,13 @@ public class UserChangePasswordController implements SecuredRestController {
     UserService userService;
 
     @PostMapping(path = PATH)
-    public ResponseEntity<BaseResponse> doChangePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<SuccessResponse> doChangePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //The only data that can be updated is the data related to the logged user
         User toUpdate = userService.findById(customUserDetails.getUser().getId()).get();
 
         if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getPassword())) {
-            ResponseEntity<BaseResponse> result;
+            ResponseEntity<SuccessResponse> result;
             toUpdate.setPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
             userService.save(toUpdate);
             customUserDetails.getUser().setPassword(toUpdate.getPassword());
