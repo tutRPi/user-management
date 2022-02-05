@@ -46,7 +46,7 @@ public class UserChangePasswordController implements SecuredRestController {
             toUpdate.setPassword(this.passwordEncoder.encode(changePasswordRequest.getPassword()));
             userService.save(toUpdate);
             customUserDetails.getUser().setPassword(toUpdate.getPassword());
-            result = ResponseEntity.ok().build();
+            result = ResponseEntity.ok().body(new SuccessResponse());
             return result;
         } else {
             throw new CodeRuntimeException(ErrorsEnum.PASSWORD_DOES_NOT_MATCH);

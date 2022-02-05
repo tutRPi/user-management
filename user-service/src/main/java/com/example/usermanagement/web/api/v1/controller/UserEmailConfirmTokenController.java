@@ -46,6 +46,6 @@ public class UserEmailConfirmTokenController {
 
         confirmationTokenService.setConfirmedAt(confirmationToken);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new SuccessResponse());
     }
 }

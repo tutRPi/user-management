@@ -70,7 +70,7 @@ public class ResetPasswordController {
             }
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new SuccessResponse());
     }
 
     @PatchMapping(path = PATH)
@@ -106,6 +106,6 @@ public class ResetPasswordController {
             }
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new SuccessResponse());
     }
 }
