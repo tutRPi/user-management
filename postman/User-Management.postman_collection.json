@@ -6,6 +6,128 @@
 	},
 	"item": [
 		{
+			"name": "2fa",
+			"item": [
+				{
+					"name": "Add 2fa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"currentPassword\": \"Passw0rd!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/user/add_2fa",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"add_2fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm 2fa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"t2FACode\": \"577365\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/user/confirm_2fa",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"confirm_2fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove 2fa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"currentPassword\": \"Passw0rd!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/user/remove_2fa",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"remove_2fa"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "signup",
 			"request": {
 				"method": "POST",
@@ -77,6 +199,18 @@
 		},
 		{
 			"name": "2fa auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"jwt\", jsonData.jwt);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -92,7 +226,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"t2FACode\": \"504866\"\r\n}",
+					"raw": "{\r\n  \"t2FACode\": \"388699\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -237,7 +371,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"firstName\": \"Test\",\r\n  \"lastName\": \"string\",\r\n  \"t2FAEnabled\": false\r\n}",
+					"raw": "{\r\n  \"firstName\": \"Test2\",\r\n  \"lastName\": \"string\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
