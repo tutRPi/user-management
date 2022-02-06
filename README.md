@@ -1,10 +1,12 @@
+### Run
 ```
 docker-compose build
 docker-compose up
 ```
 
+### Block Diagram
+![](docs/BlockDiagram.png)
 
 
-TODO
+### TODO
 * [ ] Admin functionality
-* [ ] Audit logging
