@@ -11,20 +11,17 @@ interface Props {
 }
 
 type State = {
-    username: string,
-    password: string,
+    twoFACode: string
     loading: boolean,
     message: string
 };
 
-class Login extends Component<Props, State> {
+class TwoFALogin extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
 
         this.state = {
-            username: "",
-            password: "",
+            twoFACode: "",
             loading: false,
             message: ""
         };
@@ -32,13 +29,12 @@ class Login extends Component<Props, State> {
 
     validationSchema() {
         return Yup.object().shape({
-            username: Yup.string().required("This field is required!"),
-            password: Yup.string().required("This field is required!"),
+            twoFACode: Yup.string().required("This field is required!"),
         });
     }
 
-    handleLogin(formValue: { username: string; password: string }) {
-        const {username, password} = formValue;
+    handle2fa = (formValue: { twoFACode: string }) => {
+        const {twoFACode} = formValue;
         const {navigate} = this.props;
 
         this.setState({
@@ -46,14 +42,10 @@ class Login extends Component<Props, State> {
             loading: true
         });
 
-        AuthService.login(username, password).then(
-            (data) => {
-                if (data.mustVerify2FACode) {
-                    navigate("/2fa");
-                } else {
-                    navigate("/profile");
-                    window.location.reload();
-                }
+        AuthService.twoFA(twoFACode.toString()).then(
+            () => {
+                navigate("/profile");
+                window.location.reload();
             },
             error => {
                 const resMessage =
@@ -75,40 +67,25 @@ class Login extends Component<Props, State> {
         const {loading, message} = this.state;
 
         const initialValues = {
-            username: "",
-            password: "",
+            twoFACode: "",
         };
 
         return (
             <div className="col-md-12">
                 <div className="card card-container">
-                    <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="profile-img-card"
-                    />
-
+                    Two Factor Authentication Code
                     <Formik
                         initialValues={initialValues}
                         validationSchema={this.validationSchema}
-                        onSubmit={this.handleLogin}
+                        onSubmit={this.handle2fa}
                     >
                         <Form>
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Field name="username" type="text" className="form-control"/>
+                                <label htmlFor="twoFACode">Please enter the code from your authenticator</label>
+                                <Field name="twoFACode" type="text" className="form-control" inputMode="numeric"
+                                       pattern="[0-9]{6}" minLength="6" maxLength="6" length="6"/>
                                 <ErrorMessage
-                                    name="username"
-                                    component="div"
-                                    className="alert alert-danger"
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Field name="password" type="password" className="form-control"/>
-                                <ErrorMessage
-                                    name="password"
+                                    name="twoFACode"
                                     component="div"
                                     className="alert alert-danger"
                                 />
@@ -138,4 +115,4 @@ class Login extends Component<Props, State> {
     }
 }
 
-export default withParamsAndNavigate(Login);
+export default withParamsAndNavigate(TwoFALogin);

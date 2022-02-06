@@ -1,16 +1,37 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8080/api/v1/user/"; // TODO externalize
 
+interface AuthenticationResponse {
+    jwt: string,
+    mustVerify2FACode: boolean
+}
+
 class AuthService {
-    login(username: string, password: string) {
+    login(username: string, password: string): Promise<AuthenticationResponse> {
         return axios
             .post(API_URL + "auth", {
                 username,
                 password
             })
-            .then(response => {
+            .then((response: { data: AuthenticationResponse }) => {
                 if (response.data.jwt) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                }
+
+                return response.data;
+            });
+    }
+
+    twoFA(t2FACode: string): Promise<AuthenticationResponse> {
+        return axios
+            .post(API_URL + "2fa", {
+                t2FACode
+            }, {headers: authHeader()})
+            .then((response: { data: AuthenticationResponse }) => {
+                if (response.data.jwt) {
+                    // TODO add more info (roles, etc)
                     localStorage.setItem("user", JSON.stringify(response.data));
                 }
 

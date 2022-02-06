@@ -7,6 +7,7 @@ import Login from "./components/pages/login.component";
 import Register from "./components/pages/register.component";
 import Home from "./components/pages/home.component";
 import Profile from "./components/pages/profile.component";
+import TwoFALogin from "./components/pages/two-fa-login.component";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             {path: '/', element: <Home/>},
             {path: '/profile', element: <Profile/>},
             {path: '/login', element: <Login/>},
+            {path: '/2fa', element: <TwoFALogin/>},
             {path: '/register', element: <Register/>}
         ],
     }];
