@@ -33,9 +33,11 @@ public class ActivityInterceptor implements HandlerInterceptor {
         activity.setRequestMethod(request.getMethod());
         activity.setUrl(request.getRequestURI());
 
-        Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(userAgent);
-        if (m.find()) {
-            activity.setUserAgent(m.group(1));
+        if (userAgent != null) {
+            Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(userAgent);
+            if (m.find()) {
+                activity.setUserAgent(m.group(1));
+            }
         }
 
         if (SecurityContextHolder.getContext().getAuthentication() != null &&

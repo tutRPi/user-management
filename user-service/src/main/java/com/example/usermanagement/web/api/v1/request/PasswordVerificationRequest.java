@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class Add2FACodeVerificationRequest extends BaseRequest {
+public class PasswordVerificationRequest extends BaseRequest {
     @NotNull(message = "You must send the current password with this request.")
     @Size(min = 1, max = 255)
     private String currentPassword;

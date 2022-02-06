@@ -41,7 +41,7 @@ public class ConfirmUser2FAController implements SecuredRestController {
     UserService userService;
 
     @PostMapping(path = PATH)
-    public ResponseEntity<Confirm2FACodeVerificationResponse> doVerification(@RequestBody @Valid T2FACodeVerificationRequest t2FACodeVerificationRequest) {
+    public ResponseEntity<Confirm2FACodeVerificationResponse> confirm2FA(@RequestBody @Valid T2FACodeVerificationRequest t2FACodeVerificationRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -62,7 +62,7 @@ public class ConfirmUser2FAController implements SecuredRestController {
                 codes.add(twoFactorRecoveryCode);
             }
 
-            toUpdate.setTwoFactorRecoveryCodesCollection(codes);
+            toUpdate.setTwoFactorRecoveryCodes(codes);
             toUpdate.setTwoFaEnabled(true);
             this.userService.save(toUpdate);
 

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
@@ -73,8 +74,8 @@ public class User extends Auditable<String> implements Serializable {
     private Collection<RoleByUser> rolesByUserCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<ConfirmationToken> confirmationTokensByUserCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<TwoFactorRecoveryCode> twoFactorRecoveryCodesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private Collection<TwoFactorRecoveryCode> twoFactorRecoveryCodes;
 
     @Override
     public int hashCode() {

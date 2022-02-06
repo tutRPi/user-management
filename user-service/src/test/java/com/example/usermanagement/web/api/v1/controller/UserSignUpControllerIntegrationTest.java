@@ -80,8 +80,7 @@ class UserSignUpControllerIntegrationTest extends SetupUserHelper {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.errors").doesNotExist());
         resultActions.andExpect(jsonPath("$.timestamp").exists());
-        resultActions.andExpect(jsonPath("$.t2FAEnabled", is(true)));
-        resultActions.andExpect(jsonPath("$.t2FAQRCodeImageURL").exists());
+        resultActions.andExpect(jsonPath("$.t2FAEnabled", is(false)));
     }
 
 
