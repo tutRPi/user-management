@@ -7,9 +7,11 @@ import AuthService from "../../services/auth.service";
 type Props = {};
 
 type State = {
-    username: string,
     email: string,
     password: string,
+    passwordConfirmation: string,
+    firstName: string,
+    lastName: string,
     successful: boolean,
     message: string
 };
@@ -20,9 +22,11 @@ export default class Register extends Component<Props, State> {
         this.handleRegister = this.handleRegister.bind(this);
 
         this.state = {
-            username: "",
             email: "",
             password: "",
+            passwordConfirmation: "",
+            firstName: "",
+            lastName: "",
             successful: false,
             message: ""
         };
@@ -30,16 +34,6 @@ export default class Register extends Component<Props, State> {
 
     validationSchema() {
         return Yup.object().shape({
-            username: Yup.string()
-                .test(
-                    "len",
-                    "The username must be between 3 and 20 characters.",
-                    (val: any) =>
-                        val &&
-                        val.toString().length >= 3 &&
-                        val.toString().length <= 20
-                )
-                .required("This field is required!"),
             email: Yup.string()
                 .email("This is not a valid email.")
                 .required("This field is required!"),
@@ -53,6 +47,13 @@ export default class Register extends Component<Props, State> {
                         val.toString().length <= 40
                 )
                 .required("This field is required!"),
+            passwordConfirmation: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .required("This field is required!"),
+            firstName: Yup.string()
+                .required("This field is required!"),
+            lastName: Yup.string()
+                .required("This field is required!"),
         });
     }
 
@@ -65,7 +66,7 @@ export default class Register extends Component<Props, State> {
         });
 
         AuthService.register(
-            username, email, password, passwordConfirmation, firstName, lastName, t2FAEnabled
+            email, password, passwordConfirmation, firstName, lastName, t2FAEnabled
         ).then(
             response => {
                 this.setState({
@@ -120,16 +121,6 @@ export default class Register extends Component<Props, State> {
                             {!successful && (
                                 <div>
                                     <div className="form-group">
-                                        <label htmlFor="username"> Username </label>
-                                        <Field name="username" type="text" className="form-control"/>
-                                        <ErrorMessage
-                                            name="username"
-                                            component="div"
-                                            className="alert alert-danger"
-                                        />
-                                    </div>
-
-                                    <div className="form-group">
                                         <label htmlFor="email"> Email </label>
                                         <Field name="email" type="email" className="form-control"/>
                                         <ErrorMessage
@@ -148,6 +139,40 @@ export default class Register extends Component<Props, State> {
                                         />
                                         <ErrorMessage
                                             name="password"
+                                            component="div"
+                                            className="alert alert-danger"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="passwordConfirmation"> Confirm Password </label>
+                                        <Field
+                                            name="passwordConfirmation"
+                                            type="password"
+                                            className="form-control"
+                                        />
+                                        <ErrorMessage
+                                            name="passwordConfirmation"
+                                            component="div"
+                                            className="alert alert-danger"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="firstName"> First Name </label>
+                                        <Field name="firstName" type="text" className="form-control"/>
+                                        <ErrorMessage
+                                            name="firstName"
+                                            component="div"
+                                            className="alert alert-danger"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="lastName"> Last Name </label>
+                                        <Field name="lastName" type="text" className="form-control"/>
+                                        <ErrorMessage
+                                            name="lastName"
                                             component="div"
                                             className="alert alert-danger"
                                         />

@@ -17,7 +17,10 @@ class AuthService {
             })
             .then((response: { data: AuthenticationResponse }) => {
                 if (response.data.jwt) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+                    localStorage.setItem("user", JSON.stringify({
+                        username,
+                        ...response.data
+                    }));
                 }
 
                 return response.data;
@@ -43,9 +46,8 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    register(username: string, email: string, password: string, passwordConfirmation: string, firstName: string, lastName: string, t2FAEnabled: boolean) {
+    register(email: string, password: string, passwordConfirmation: string, firstName: string, lastName: string, t2FAEnabled: boolean) {
         return axios.post(API_URL + "signup", {
-            username,
             email,
             password,
             passwordConfirmation,

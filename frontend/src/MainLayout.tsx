@@ -11,8 +11,6 @@ import EventBus from "./common/EventBus";
 type Props = {};
 
 type State = {
-    showModeratorBoard: boolean,
-    showAdminBoard: boolean,
     currentUser: IUser | undefined
 }
 
@@ -22,8 +20,6 @@ class MainLayout extends Component<Props, State> {
         this.logOut = this.logOut.bind(this);
 
         this.state = {
-            showModeratorBoard: false,
-            showAdminBoard: false,
             currentUser: undefined,
         };
     }
@@ -34,8 +30,6 @@ class MainLayout extends Component<Props, State> {
         if (user) {
             this.setState({
                 currentUser: user,
-                // showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-                // showAdminBoard: user.roles.includes("ROLE_ADMIN"),
             });
         }
 
@@ -49,14 +43,12 @@ class MainLayout extends Component<Props, State> {
     logOut() {
         AuthService.logout();
         this.setState({
-            showModeratorBoard: false,
-            showAdminBoard: false,
             currentUser: undefined,
         });
     }
 
     render() {
-        const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
+        const {currentUser} = this.state;
 
         return (
             <div>
@@ -70,30 +62,6 @@ class MainLayout extends Component<Props, State> {
                                 Home
                             </Link>
                         </li>
-
-                        {showModeratorBoard && (
-                            <li className="nav-item">
-                                <Link to={"/mod"} className="nav-link">
-                                    Moderator Board
-                                </Link>
-                            </li>
-                        )}
-
-                        {showAdminBoard && (
-                            <li className="nav-item">
-                                <Link to={"/admin"} className="nav-link">
-                                    Admin Board
-                                </Link>
-                            </li>
-                        )}
-
-                        {currentUser && (
-                            <li className="nav-item">
-                                <Link to={"/user"} className="nav-link">
-                                    User
-                                </Link>
-                            </li>
-                        )}
                     </div>
 
                     {currentUser ? (
@@ -104,7 +72,7 @@ class MainLayout extends Component<Props, State> {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <a href="/login" className="nav-link" onClick={this.logOut}>
+                                <a href={"/login"} className="nav-link" onClick={this.logOut}>
                                     LogOut
                                 </a>
                             </li>

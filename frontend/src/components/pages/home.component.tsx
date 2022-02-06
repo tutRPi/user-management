@@ -1,7 +1,5 @@
 import {Component} from "react";
 
-import UserService from "../../services/user.service";
-
 type Props = {};
 
 type State = {
