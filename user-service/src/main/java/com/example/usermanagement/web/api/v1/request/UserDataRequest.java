@@ -16,5 +16,4 @@ public class UserDataRequest extends BaseRequest {
     @NotNull(message = "You must send a last name with this request.")
     @Size(min = 1, max = 100)
     private String lastName;
-    private boolean t2FAEnabled;
 }

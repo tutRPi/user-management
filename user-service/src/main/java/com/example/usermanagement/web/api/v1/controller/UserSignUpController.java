@@ -45,7 +45,7 @@ public class UserSignUpController {
         toSignUp.setFirstName(userSignUpRequest.getFirstName());
         toSignUp.setLastName(userSignUpRequest.getLastName());
         toSignUp.setPassword(this.passwordEncoder.encode(userSignUpRequest.getPassword()));
-        toSignUp.setTwoFaEnabled(userSignUpRequest.isT2FAEnabled());
+//        toSignUp.setTwoFaEnabled(userSignUpRequest.isT2FAEnabled());
 
         ConfirmationToken token = new ConfirmationToken();
         token.setToken(RandomStringUtil.getAlphaNumericString());
@@ -53,10 +53,10 @@ public class UserSignUpController {
         token.setCreatedOn(Instant.now());
         token.setExpiresAt(Instant.now().plus(2, ChronoUnit.DAYS));
 
-        if (userSignUpRequest.isT2FAEnabled()) {
-            //Generate 2FA random secret
-            toSignUp.setTwoFaSecret(SecurityHelper.generateSecretKey());
-        }
+//        if (userSignUpRequest.isT2FAEnabled()) {
+//            //Generate 2FA random secret
+//            toSignUp.setTwoFaSecret(SecurityHelper.generateSecretKey());
+//        }
         User signedUp = this.userService.signUp(toSignUp, token);
 
         // send email
@@ -64,10 +64,10 @@ public class UserSignUpController {
 
         // Build the response
         UserAccountDataResponse response = new UserAccountDataResponse();
-        if (userSignUpRequest.isT2FAEnabled()) {
-            //Generate 2FA qr code image url
-            response.setT2FAQRCodeImageURL(SecurityHelper.generate2FAQRCodeImageURL(signedUp));
-        }
+//        if (userSignUpRequest.isT2FAEnabled()) {
+//            //Generate 2FA qr code image url
+//            response.setT2FAQRCodeImageURL(SecurityHelper.generate2FAQRCodeImageURL(signedUp));
+//        }
         response.setT2FAEnabled(signedUp.isTwoFaEnabled());
         return ResponseEntity.ok(response);
     }

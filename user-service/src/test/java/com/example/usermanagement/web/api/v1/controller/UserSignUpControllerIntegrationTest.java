@@ -89,7 +89,6 @@ class UserSignUpControllerIntegrationTest extends SetupUserHelper {
         UserSignUpRequest userSignUpRequest = new UserSignUpRequest();
         userSignUpRequest.setFirstName("Test");
         userSignUpRequest.setLastName("User");
-        userSignUpRequest.setT2FAEnabled(true);
         userSignUpRequest.setEmail("test@example.com");
         userSignUpRequest.setPassword("P4ssw0rd!123");
         userSignUpRequest.setPasswordConfirmation("P4ssw0rd!123");

@@ -1,4 +1,4 @@
-package com.example.usermanagement.web.api.v1.controller;
+package com.example.usermanagement.web.api.v1.controller.twofa;
 
 import com.example.usermanagement.business.common.SecurityRole;
 import com.example.usermanagement.business.model.CustomUserDetails;
@@ -6,13 +6,13 @@ import com.example.usermanagement.web.api.common.delegate.AuthenticationDelegate
 import com.example.usermanagement.web.api.common.response.ErrorsEnum;
 import com.example.usermanagement.web.api.common.response.exception.CodeRuntimeException;
 import com.example.usermanagement.web.api.v1.Constants;
+import com.example.usermanagement.web.api.v1.controller.SecuredRestController;
 import com.example.usermanagement.web.api.v1.request.T2FACodeVerificationRequest;
 import com.example.usermanagement.web.api.v1.response.AuthenticationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.aerogear.security.otp.Totp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

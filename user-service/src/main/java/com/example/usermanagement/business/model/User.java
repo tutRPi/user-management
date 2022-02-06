@@ -73,6 +73,8 @@ public class User extends Auditable<String> implements Serializable {
     private Collection<RoleByUser> rolesByUserCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<ConfirmationToken> confirmationTokensByUserCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<TwoFactorRecoveryCode> twoFactorRecoveryCodesCollection;
 
     @Override
     public int hashCode() {

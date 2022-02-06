@@ -41,7 +41,7 @@ public class LockUserAdminController {
 
         Optional<User> user = userRepository.findById(lockUserRequest.getUserId());
         if (user.isEmpty()) {
-            throw new CodeRuntimeException(ErrorsEnum.INVALID_USER_USER);
+            throw new CodeRuntimeException(ErrorsEnum.INVALID_USER_ID);
         }
 
         if (lockUserRequest.isLock()) {

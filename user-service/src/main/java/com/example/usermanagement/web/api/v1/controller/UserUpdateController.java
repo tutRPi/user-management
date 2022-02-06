@@ -39,16 +39,6 @@ public class UserUpdateController implements SecuredRestController {
         toUpdate.setLastName(userDataRequest.getLastName());
 
         UserAccountDataResponse response = new UserAccountDataResponse();
-        if (userDataRequest.isT2FAEnabled() && !toUpdate.isTwoFaEnabled()) {
-            //User has activated 2FA
-            //Generate 2FA random secret and qr code image url
-            toUpdate.setTwoFaSecret(SecurityHelper.generateSecretKey());
-            response.setT2FAQRCodeImageURL(SecurityHelper.generate2FAQRCodeImageURL(toUpdate));
-        } else if (!userDataRequest.isT2FAEnabled()) {
-            //User has deactivated 2FA
-            toUpdate.setTwoFaSecret(null);
-        }
-        toUpdate.setTwoFaEnabled(userDataRequest.isT2FAEnabled());
         response.setT2FAEnabled(toUpdate.isTwoFaEnabled());
         this.userService.save(toUpdate);
 

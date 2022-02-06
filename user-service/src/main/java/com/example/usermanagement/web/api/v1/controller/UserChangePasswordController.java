@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = Constants.API_VERSION_PATH)
@@ -38,8 +39,14 @@ public class UserChangePasswordController implements SecuredRestController {
     @PostMapping(path = PATH)
     public ResponseEntity<SuccessResponse> doChangePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //The only data that can be updated is the data related to the logged user
-        User toUpdate = userService.findById(customUserDetails.getUser().getId()).get();
+        // The only data that can be updated is the data related to the logged user
+        Optional<User> optUser = userService.findById(customUserDetails.getUser().getId());
+        User toUpdate;
+        if (optUser.isPresent()) {
+            toUpdate = optUser.get();
+        } else {
+            throw new CodeRuntimeException(ErrorsEnum.INVALID_USER_ID);
+        }
 
         if (passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), toUpdate.getPassword())) {
             ResponseEntity<SuccessResponse> result;
