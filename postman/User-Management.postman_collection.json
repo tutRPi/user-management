@@ -124,6 +124,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Reset 2fa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"code\": \"8035ad79\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/user/reset_2fa",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"reset_2fa"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -175,7 +214,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"test@example.com\",\r\n  \"password\": \"Passw0rd!\"\r\n}",
+					"raw": "{\r\n  \"username\": \"test6@example.com\",\r\n  \"password\": \"Passw0rd!\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -204,8 +243,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.environment.set(\"jwt\", jsonData.jwt);"
+							"if (pm.response.code == 200) {\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"    pm.environment.set(\"jwt\", jsonData.jwt);\r",
+							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -226,7 +267,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"t2FACode\": \"388699\"\r\n}",
+					"raw": "{\r\n  \"t2FACode\": \"861432\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -62,7 +62,8 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 //TODO: Adjust CORS origins here !
                 registry.addMapping(Constants.API_VERSION_PATH + "/**")
-                        .allowedOrigins("http://localhost:3000", "http://localhost:8080");
+                        .allowedOrigins("http://localhost:3000", "http://localhost:8080")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }
