@@ -42,6 +42,19 @@ class AuthService {
             });
     }
 
+    resetTwoFA(code: string): Promise<boolean> {
+        return axios
+            .delete(API_URL + "reset_2fa", {
+                headers: authHeader(),
+                data: {
+                    code
+                }
+            })
+            .then(() => {
+                return true
+            });
+    }
+
     logout() {
         localStorage.removeItem("user");
     }

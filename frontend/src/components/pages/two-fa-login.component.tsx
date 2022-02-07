@@ -4,6 +4,7 @@ import * as Yup from "yup";
 
 import AuthService from "../../services/auth.service";
 import {withParamsAndNavigate} from "../../common/withParamsAndNavigate";
+import {Link} from "react-router-dom";
 
 interface Props {
     navigate: any,
@@ -109,6 +110,9 @@ class TwoFALogin extends Component<Props, State> {
                             )}
                         </Form>
                     </Formik>
+                    <div>
+                        Click <Link to={'/reset2fa'}>here</Link>, if you lost your 2fa device
+                    </div>
                 </div>
             </div>
         );
