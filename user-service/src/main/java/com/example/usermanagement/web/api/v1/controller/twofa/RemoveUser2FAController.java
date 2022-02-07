@@ -42,14 +42,18 @@ public class RemoveUser2FAController implements SecuredRestController {
     public ResponseEntity<SuccessResponse> remove2FA(@RequestBody @Valid PasswordVerificationRequest passwordVerificationRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        User toUpdate = customUserDetails.getUser();
+        User user = customUserDetails.getUser();
 
-        if (passwordEncoder.matches(passwordVerificationRequest.getCurrentPassword(), toUpdate.getPassword())) {
+        if (passwordEncoder.matches(passwordVerificationRequest.getCurrentPassword(), user.getPassword())) {
 
-            toUpdate.setTwoFactorRecoveryCodes(new ArrayList<>());
-            toUpdate.setTwoFaEnabled(false);
-            toUpdate.setTwoFaSecret(null);
-            this.userService.save(toUpdate);
+            if (!user.isTwoFaEnabled()) {
+                throw new CodeRuntimeException(ErrorsEnum.TWO_FACTOR_ALREADY_DISABLED);
+            }
+
+            user.setTwoFactorRecoveryCodes(new ArrayList<>());
+            user.setTwoFaEnabled(false);
+            user.setTwoFaSecret(null);
+            this.userService.save(user);
 
             return ResponseEntity.ok(new SuccessResponse());
         } else {

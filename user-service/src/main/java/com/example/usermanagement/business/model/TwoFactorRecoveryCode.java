@@ -31,7 +31,7 @@ public class TwoFactorRecoveryCode {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "used")
-    private boolean used;
+    @Column(name = "usedAt")
+    private Instant usedAt;
 
 }

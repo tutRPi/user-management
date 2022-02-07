@@ -28,6 +28,10 @@ public enum ErrorsEnum {
 
     INVALID_ARGUMENTS(80, HttpStatus.BAD_REQUEST, "Invalid arguments"),
 
+    INVALID_RECOVERY_CODE(90, HttpStatus.NOT_FOUND, "Invalid recovery code"),
+    RECOVERY_CODE_USED(91, HttpStatus.BAD_REQUEST, "Recovery code has been used"),
+    TWO_FACTOR_ALREADY_DISABLED(92, HttpStatus.BAD_REQUEST, "Two factor mode is already disabled"),
+
     ;
 
     private int code;

@@ -58,7 +58,7 @@ public class ConfirmUser2FAController implements SecuredRestController {
                 TwoFactorRecoveryCode twoFactorRecoveryCode = new TwoFactorRecoveryCode();
                 twoFactorRecoveryCode.setCode(code);
                 twoFactorRecoveryCode.setUser(toUpdate);
-                twoFactorRecoveryCode.setUsed(false);
+                twoFactorRecoveryCode.setUsedAt(null);
                 codes.add(twoFactorRecoveryCode);
             }
 

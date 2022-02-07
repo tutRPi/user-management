@@ -62,6 +62,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }
