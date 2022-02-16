@@ -10,3 +10,7 @@ docker-compose up
 
 ### TODO
 * [ ] Admin functionality
+* [ ] Add user details (address etc)
+* [ ] Statistics service
+* [ ] Add Invoice handling
+* [ ] SSO with 3rd party providers
