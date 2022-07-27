@@ -23,6 +23,17 @@ spring:
     port: 5672
     username: guest
     password: guest
+  security:
+    oauth2:
+      client:
+        registration:
+          # get from https://console.cloud.google.com/apis/credentials
+          google:
+            clientId: 
+            clientSecret: 
+            scope:
+              - email
+              - profile
 # Logger configuration
 logging:
   pattern:
