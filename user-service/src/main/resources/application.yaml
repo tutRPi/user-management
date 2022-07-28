@@ -34,6 +34,9 @@ spring:
             scope:
               - email
               - profile
+app:
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
 # Logger configuration
 logging:
   pattern:

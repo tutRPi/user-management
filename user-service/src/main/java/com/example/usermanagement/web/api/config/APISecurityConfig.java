@@ -7,6 +7,7 @@ import com.example.usermanagement.web.api.v1.controller.*;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +40,9 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JWTProcessorFilter jwtProcessorFilter;
 
+    @Value("${app.cors.allowedOrigins}")
+    private String[] allowedOrigins;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService);
@@ -60,10 +64,11 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                //TODO: Adjust CORS origins here !
                 registry.addMapping(Constants.API_VERSION_PATH + "/**")
-                        .allowedOrigins("http://localhost:3000", "http://localhost:8080")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
+                        .allowedOrigins(allowedOrigins)
+                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
@@ -76,20 +81,22 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .antMatcher(com.example.usermanagement.web.api.Constants.API_PATH + "/**")
-                .authorizeRequests()
-                .antMatchers(Constants.API_VERSION_PATH + UserAuthenticationController.PATH)
-                .permitAll()
-                .antMatchers(Constants.API_VERSION_PATH + UserSignUpController.PATH)
-                .permitAll()
-                .antMatchers(Constants.API_VERSION_PATH + JWTController.PATH)
-                .permitAll()
-                .antMatchers(Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH)
-                .permitAll()
-                .antMatchers(Constants.API_VERSION_PATH + ResetPasswordController.PATH)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .authorizeRequests(a -> a
+                        .antMatchers(Constants.API_VERSION_PATH + UserAuthenticationController.PATH)
+                        .permitAll()
+                        .antMatchers(Constants.API_VERSION_PATH + UserSignUpController.PATH)
+                        .permitAll()
+                        .antMatchers(Constants.API_VERSION_PATH + JWTController.PATH)
+                        .permitAll()
+                        .antMatchers(Constants.API_VERSION_PATH + UserEmailConfirmTokenController.PATH)
+                        .permitAll()
+                        .antMatchers(Constants.API_VERSION_PATH + ResetPasswordController.PATH)
+                        .permitAll()
+                        .antMatchers("/auth/**", "/oauth2/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
                 .exceptionHandling()
                 .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
