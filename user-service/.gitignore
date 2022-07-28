@@ -34,3 +34,4 @@ build/
 
 ### Temp data ###
 /db/data/
+/src/main/resources/application-local.yaml
